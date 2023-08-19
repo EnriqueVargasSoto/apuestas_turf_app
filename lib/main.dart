@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:tafur/src/pages/admin/users/cerate_user_screen.dart';
 import 'package:tafur/src/pages/login/login_screen.dart';
+import 'package:tafur/src/pages/main/main_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -27,7 +29,11 @@ class MyApp extends StatelessWidget {
       ),
       //home: const MyHomePage(title: 'Flutter Demo Home Page'),
       initialRoute: '/login',
-      routes: {'/login': (context) => const LoginScreen()},
+      routes: {
+        '/login': (context) => const LoginScreen(),
+        '/main': (context) => const MainScreen(),
+        '/create_user': (context) => const CreateUserScreen()
+      },
     );
   }
 }

@@ -32,7 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
       backgroundColor: ColorsApp.background,
       body: SingleChildScrollView(
         child: SizedBox(
-          height: size!.height * 0.95,
+          height: size!.height * 0.90,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             mainAxisSize: MainAxisSize.max,
@@ -43,13 +43,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Column(
                   children: [
                     Image.asset(
-                      'assets/logo.png',
-                      height: 150,
+                      'assets/IcoBlanco.png',
+                      //height: 150,
                     ),
                     Text(
                       con.titulo,
                       style: TextStyle(
-                          color: ColorsApp.black,
+                          color: ColorsApp.white,
                           fontSize: 35.0,
                           fontWeight: FontWeight.w500),
                     ),
@@ -116,7 +116,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     MaterialButton(
                       minWidth: size!.width * 1,
                       height: 42.0,
-                      onPressed: () async => {},
+                      onPressed: () async => await con.login(),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(9.0),
                           side: BorderSide(color: ColorsApp.white, width: 2.0)),
