@@ -128,9 +128,9 @@ class _UsersScreenState extends State<UsersScreen> {
                 children: [
                   IconButton(
                       //padding: EdgeInsets.all(3.0),
-                      onPressed: () {},
+                      onPressed: () => con.editUser(con.users[i]),
                       icon: Icon(
-                        Icons.edit,
+                        Icons.monetization_on,
                         color: ColorsApp.background,
                       )),
                   IconButton(

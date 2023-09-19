@@ -19,6 +19,7 @@ class UsersController {
 
   Future listarUsuarios() async {
     await Service.consulta('users', 'get', null).then((value) {
+      print(value.body);
       dynamic respuesta = jsonDecode(value.body);
       List<dynamic> listUser = respuesta['data'];
       for (var i = 0; i < listUser.length; i++) {
@@ -32,6 +33,10 @@ class UsersController {
 
   void createUser() {
     Navigator.pushNamed(context!, '/create_user');
+  }
+
+  void editUser(Map user) {
+    Navigator.pushNamed(context!, '/edit_user', arguments: user);
   }
 
   void loading() {

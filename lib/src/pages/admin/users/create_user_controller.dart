@@ -19,10 +19,14 @@ class CreateUserController {
     Map<String, String> body = {
       'names': names.text.trim(),
       'email': email.text.trim(),
-      'password': password.text.trim()
+      'password': password.text.trim(),
+      'credit': '0.000',
+      'status': 'active',
+      'role_id': '2'
     };
 
     await Service.consulta('users', 'post', body).then((value) {
+      print(value.body);
       if (value.statusCode == 200) {
         cerrarModal();
         modalMensaje(

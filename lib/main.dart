@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:tafur/src/pages/admin/events/create_event_screen.dart';
 import 'package:tafur/src/pages/admin/users/cerate_user_screen.dart';
+import 'package:tafur/src/pages/admin/users/edit_user_screen.dart';
 import 'package:tafur/src/pages/login/login_screen.dart';
 import 'package:tafur/src/pages/main/main_screen.dart';
 
@@ -14,6 +16,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Apuestas TURF',
       theme: ThemeData(
         // This is the theme of your application.
@@ -32,7 +35,9 @@ class MyApp extends StatelessWidget {
       routes: {
         '/login': (context) => const LoginScreen(),
         '/main': (context) => const MainScreen(),
-        '/create_user': (context) => const CreateUserScreen()
+        '/create_user': (context) => const CreateUserScreen(),
+        '/edit_user': (context) => const EditUserScreen(),
+        '/create_event': (context) => const CreateEventScreen()
       },
     );
   }

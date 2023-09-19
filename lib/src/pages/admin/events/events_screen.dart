@@ -46,16 +46,19 @@ class _EventsScreenState extends State<EventsScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Column(
             children: [
-              Container(
-                width: size!.width * 1.0,
-                height: 120.0,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(width: 1.0, color: ColorsApp.black)),
-                child: Icon(
-                  Icons.add_circle_outline_sharp,
-                  size: 90.0,
-                  color: ColorsApp.background,
+              GestureDetector(
+                onTap: () => con.crearEvento(),
+                child: Container(
+                  width: size!.width * 1.0,
+                  height: 120.0,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(width: 1.0, color: ColorsApp.black)),
+                  child: Icon(
+                    Icons.add_circle_outline_sharp,
+                    size: 90.0,
+                    color: ColorsApp.background,
+                  ),
                 ),
               ),
               const SizedBox(
