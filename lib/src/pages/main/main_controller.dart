@@ -7,6 +7,7 @@ import 'package:tafur/src/pages/admin/users/users_screen.dart';
 import 'package:tafur/src/pages/client/apuestas/apuestas_screen.dart';
 import 'package:tafur/src/pages/client/home/home_screen.dart';
 import 'package:tafur/src/utils/colors.dart';
+import 'package:tafur/src/utils/service.dart';
 import 'package:tafur/src/utils/shared_pref.dart';
 
 class MainController {
@@ -15,6 +16,10 @@ class MainController {
   SharedPref? sharedPref;
 
   Map<String, dynamic> user = {};
+
+  List<dynamic> transferencias = [];
+
+  double montoDouble = 0.000;
 
   int currentIndex = 0;
 
@@ -52,6 +57,7 @@ class MainController {
     sharedPref = SharedPref();
     await setearUser();
     await setearData();
+    await getTranferencias();
   }
 
   Future setearUser() async {
@@ -59,6 +65,26 @@ class MainController {
     user = jsonDecode(resp);
 
     print(user['user']['role_id'] != '1');
+  }
+
+  Future getTranferencias() async {
+    await Service.consulta(
+            'transaction-user/${user['user']['id']}', 'get', null)
+        .then((value) {
+      dynamic resp = jsonDecode(value.body);
+      transferencias = resp['data'];
+      montoDouble = 0.0;
+      for (var i = 0; i < transferencias.length; i++) {
+        if (transferencias[i]['type'] == 'Recarga') {
+          montoDouble += double.parse(transferencias[i]['amount']);
+        } else {
+          montoDouble -= double.parse(transferencias[i]['amount']);
+        }
+      }
+      //monto.text = montoDouble.toStringAsFixed(3);
+
+      //print(value.body);
+    });
   }
 
   Future setearData() async {

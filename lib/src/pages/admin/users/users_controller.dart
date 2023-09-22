@@ -9,6 +9,9 @@ class UsersController {
   GlobalKey<ScaffoldState> key = GlobalKey<ScaffoldState>();
 
   List<dynamic> users = [];
+  List<dynamic> resultado = [];
+
+  TextEditingController buscador = TextEditingController();
 
   Future init(BuildContext context) async {
     this.context = context;
@@ -17,7 +20,17 @@ class UsersController {
     cerrarModal();
   }
 
+  // Método para realizar la búsqueda.
+  void performSearch(value) {
+    String query = value.toString().toUpperCase();
+    resultado = users.where((element) {
+      return element['names'].toString().toUpperCase().contains(query);
+    }).toList();
+  }
+
   Future listarUsuarios() async {
+    users = [];
+    resultado = [];
     await Service.consulta('users', 'get', null).then((value) {
       print(value.body);
       dynamic respuesta = jsonDecode(value.body);
@@ -29,6 +42,7 @@ class UsersController {
         }
       }
     });
+    resultado = users;
   }
 
   void createUser() {
@@ -72,5 +86,49 @@ class UsersController {
 
   void cerrarModal() {
     Navigator.pop(context!);
+  }
+
+  Future eliminarUsuario(Map<String, dynamic> user) async {
+    Map<String, String> body = user.map((key, value) {
+      String stringValue = value.toString();
+      return MapEntry<String, String>(key, stringValue);
+    });
+    await Service.consulta('users/${user['id']}', 'delete', null)
+        .then((value) => print(value.body));
+    //await init(context!);
+  }
+
+  void modalMensaje(String mensaje) {
+    showDialog(
+        //barrierDismissible: false,
+        context: context!,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Text(
+              mensaje,
+              maxLines: 2,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  color: ColorsApp.black,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700),
+            ),
+            actions: [
+              MaterialButton(
+                  onPressed: () {
+                    //cerrarModal();
+                  },
+                  color: ColorsApp.background,
+                  child: Text(
+                    'OK',
+                    style: TextStyle(
+                        color: ColorsApp.white,
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold),
+                  ))
+            ],
+            actionsAlignment: MainAxisAlignment.center,
+          );
+        });
   }
 }

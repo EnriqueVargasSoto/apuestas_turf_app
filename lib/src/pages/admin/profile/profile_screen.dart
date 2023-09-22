@@ -51,6 +51,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 padding: EdgeInsets.symmetric(vertical: 10.0),
                 child: TextField(
                   controller: con.names,
+                  readOnly: true,
                   decoration: InputDecoration(
                     hintText: 'Nombres',
                     contentPadding:
@@ -72,8 +73,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 padding: EdgeInsets.symmetric(vertical: 10.0),
                 child: TextField(
                   controller: con.email,
+                  readOnly: true,
                   decoration: InputDecoration(
-                    hintText: 'email',
+                    hintText: 'usuario',
                     contentPadding:
                         EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
                     enabledBorder: OutlineInputBorder(
@@ -89,7 +91,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ),
               ),
-              Padding(
+              /*Padding(
                 padding: EdgeInsets.symmetric(vertical: 10.0),
                 child: TextField(
                   controller: con.password,
@@ -110,25 +112,67 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 15.0),
-                child: MaterialButton(
-                  onPressed: () async => con.updateUser(),
-                  color: ColorsApp.background,
-                  height: 45.0,
-                  minWidth: size!.width * 1,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15)),
-                  child: Text(
-                    'Guardar',
-                    style: TextStyle(
-                        fontSize: 18.0,
-                        color: ColorsApp.white,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ),
+              ),*/
+              //Text('${con.user['role_id'].toString()}'),
+              con.user['user']['role_id'] == '2'
+                  ? Padding(
+                      padding: EdgeInsets.symmetric(vertical: 15.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          MaterialButton(
+                              onPressed: () async =>
+                                  con.launchWhatsApp("+595985704200"),
+                              color: ColorsApp.background,
+                              height: 45.0,
+                              //minWidth: size!.width * 1,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15)),
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.whatsapp,
+                                    color: ColorsApp.white,
+                                  ),
+                                  Text(
+                                    'Whatsapp 1',
+                                    style: TextStyle(
+                                        fontSize: 18.0,
+                                        color: ColorsApp.white,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              )),
+                          SizedBox(
+                            width: 10.0,
+                          ),
+                          MaterialButton(
+                            onPressed: () async =>
+                                con.launchWhatsApp("+595985904706"),
+                            color: ColorsApp.background,
+                            height: 45.0,
+                            //minWidth: size!.width * 1,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15)),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.whatsapp,
+                                  color: ColorsApp.white,
+                                ),
+                                Text(
+                                  'Whatsapp 2',
+                                  style: TextStyle(
+                                      fontSize: 18.0,
+                                      color: ColorsApp.white,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ))
+                  : Container(),
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 15.0),
                 child: MaterialButton(

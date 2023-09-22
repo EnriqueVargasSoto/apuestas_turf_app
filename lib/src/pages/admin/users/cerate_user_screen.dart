@@ -84,7 +84,7 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
                   child: TextField(
                     controller: con.email,
                     decoration: InputDecoration(
-                      hintText: 'email',
+                      hintText: 'usuario',
                       contentPadding:
                           EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
                       enabledBorder: OutlineInputBorder(

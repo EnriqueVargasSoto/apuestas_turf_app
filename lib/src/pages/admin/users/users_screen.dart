@@ -24,6 +24,45 @@ class _UsersScreenState extends State<UsersScreen> {
     });
   }
 
+  void modalMensaje(String mensaje, user) {
+    showDialog(
+        //barrierDismissible: false,
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Text(
+              mensaje,
+              maxLines: 2,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  color: ColorsApp.black,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700),
+            ),
+            actions: [
+              MaterialButton(
+                  onPressed: () async {
+                    con.cerrarModal();
+                    con.loading();
+                    await con.eliminarUsuario(user);
+                    await con.listarUsuarios();
+                    con.cerrarModal();
+                    setState(() {});
+                  },
+                  color: ColorsApp.background,
+                  child: Text(
+                    'SI',
+                    style: TextStyle(
+                        color: ColorsApp.white,
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold),
+                  ))
+            ],
+            actionsAlignment: MainAxisAlignment.center,
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
@@ -59,6 +98,7 @@ class _UsersScreenState extends State<UsersScreen> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
           child: TextField(
+            controller: con.buscador,
             decoration: InputDecoration(
                 hintText: 'Buscar usuario...',
                 contentPadding:
@@ -77,6 +117,10 @@ class _UsersScreenState extends State<UsersScreen> {
                   Icons.search,
                   color: ColorsApp.background,
                 )),
+            onChanged: (value) {
+              con.performSearch(value);
+              setState(() {});
+            },
           ),
         ),
         Expanded(
@@ -93,7 +137,7 @@ class _UsersScreenState extends State<UsersScreen> {
   List<Widget> listUsers() {
     List<Widget> opt = [];
 
-    for (var i = 0; i < con.users.length; i++) {
+    for (var i = 0; i < con.resultado.length; i++) {
       Widget temp = Container(
         //padding: EdgeInsets.symmetric(),
         margin: EdgeInsets.symmetric(vertical: 5.0),
@@ -119,7 +163,7 @@ class _UsersScreenState extends State<UsersScreen> {
                   const SizedBox(
                     width: 15.0,
                   ),
-                  Text("${con.users[i]['names']}")
+                  Text("${con.resultado[i]['names']}")
                 ],
               ),
             ),
@@ -128,13 +172,19 @@ class _UsersScreenState extends State<UsersScreen> {
                 children: [
                   IconButton(
                       //padding: EdgeInsets.all(3.0),
-                      onPressed: () => con.editUser(con.users[i]),
+                      onPressed: () => con.editUser(con.resultado[i]),
                       icon: Icon(
                         Icons.monetization_on,
                         color: ColorsApp.background,
                       )),
                   IconButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        modalMensaje(
+                            "Desea eliminar a este usuario?", con.resultado[i]);
+                        //await con.eliminarUsuario(con.resultado[i]);
+                        //await con.listarUsuarios();
+                        //setState(() {});
+                      },
                       icon: Icon(
                         Icons.delete,
                         color: ColorsApp.background,

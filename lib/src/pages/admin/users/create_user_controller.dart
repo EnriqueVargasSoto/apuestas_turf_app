@@ -18,7 +18,7 @@ class CreateUserController {
     loading();
     Map<String, String> body = {
       'names': names.text.trim(),
-      'email': email.text.trim(),
+      'email': '${email.text.trim()}@turf.com',
       'password': password.text.trim(),
       'credit': '0.000',
       'status': 'active',

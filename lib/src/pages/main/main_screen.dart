@@ -66,7 +66,7 @@ class _MainScreenState extends State<MainScreen> {
                               fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          '${con.user['user']['credit']}',
+                          '${con.montoDouble.toStringAsFixed(3)}',
                           style: TextStyle(
                               color: ColorsApp.black,
                               fontSize: 18.0,

@@ -31,17 +31,25 @@ class LoginController {
 
   Future login() async {
     loading();
-    body = {'email': usuario.text.trim(), 'password': password.text.trim()};
+    body = {
+      'email': '${usuario.text.trim()}@turf.com',
+      'password': password.text.trim()
+    };
     try {
       await Service.consulta('login', 'post', body).then((value) {
         dynamic respuesta = jsonDecode(value.body);
-
+        print(respuesta);
         switch (value.statusCode) {
           case 200:
             cerrarModal();
-            sharedPref!.save('user', value.body);
-            modalMensaje(
-                'Bienvenido ${respuesta['user']['names']}', value.statusCode);
+            if (respuesta['user']['status'] == 'active') {
+              sharedPref!.save('user', value.body);
+              modalMensaje(
+                  'Bienvenido ${respuesta['user']['names']}', value.statusCode);
+            } else {
+              modalMensaje('Usuario inactivo.', 422);
+            }
+
             break;
 
           case 422:

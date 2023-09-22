@@ -44,7 +44,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.apuestas.tafur"
+        applicationId "com.apuestas.apuestas_turf_app"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-build-configuration.
         minSdkVersion flutter.minSdkVersion
@@ -60,7 +60,6 @@ android {
             signingConfig signingConfigs.debug
         }
     }
-    namespace 'com.apuestas.tafur'
 }
 
 flutter {
@@ -68,5 +67,6 @@ flutter {
 }
 
 dependencies {
+    implementation 'androidx.core:core-ktx:1.7.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }

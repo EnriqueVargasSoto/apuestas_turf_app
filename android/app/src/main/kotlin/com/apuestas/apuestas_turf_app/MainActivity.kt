@@ -1,4 +1,4 @@
-package com.apuestas.tafur
+package com.apuestas.apuestas_turf_app
 
 import io.flutter.embedding.android.FlutterActivity
 
