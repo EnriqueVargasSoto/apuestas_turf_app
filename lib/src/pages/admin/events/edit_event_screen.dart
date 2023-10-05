@@ -4,18 +4,19 @@ import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
-import 'package:tafur/src/pages/admin/events/create_event_controller.dart';
+import 'package:tafur/src/enviroment/enviroment.dart';
+import 'package:tafur/src/pages/admin/events/edit_event_controller.dart';
 import 'package:tafur/src/utils/colors.dart';
 
-class CreateEventScreen extends StatefulWidget {
-  const CreateEventScreen({super.key});
+class EditEventScreen extends StatefulWidget {
+  const EditEventScreen({super.key});
 
   @override
-  State<CreateEventScreen> createState() => _CreateEventScreenState();
+  State<EditEventScreen> createState() => _EditEventScreenState();
 }
 
-class _CreateEventScreenState extends State<CreateEventScreen> {
-  CreateEventController con = CreateEventController();
+class _EditEventScreenState extends State<EditEventScreen> {
+  EditEventController con = EditEventController();
   Size? size;
 
   @override
@@ -23,183 +24,10 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
     // TODO: implement initState
     super.initState();
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) async {
-      await con.init(context);
+      Map event = ModalRoute.of(context)!.settings.arguments as Map;
+      await con.init(context, event);
       setState(() {});
     });
-  }
-
-  void nuevaProbabilidad() {
-    con.nameProbabilidad = TextEditingController();
-    con.descripcion = TextEditingController();
-    con.valor = TextEditingController();
-    con.apuestaMaxima = TextEditingController();
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return Dialog(
-            //insetPadding: EdgeInsets.symmetric(vertical: 20.0),
-            child: Container(
-              padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  /*DropDownTextField(
-                    controller: con.tipo,
-                    dropDownItemCount: con.tipos.length,
-                    dropDownList: con.tipos,
-                    textFieldDecoration: InputDecoration(
-                      hintText: 'Tipo de transferencia',
-                      contentPadding:
-                          EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            width: 1,
-                            color: ColorsApp.background), //<-- SEE HERE
-                        borderRadius: BorderRadius.circular(50.0),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            width: 1,
-                            color: ColorsApp.background), //<-- SEE HERE
-                        borderRadius: BorderRadius.circular(50.0),
-                      ),
-                    ),
-                  ),*/
-                  TextField(
-                    controller: con.nameProbabilidad,
-                    decoration: InputDecoration(
-                      hintText: 'Probabilidad',
-                      contentPadding:
-                          EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            width: 1,
-                            color: ColorsApp.background), //<-- SEE HERE
-                        borderRadius: BorderRadius.circular(50.0),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            width: 1,
-                            color: ColorsApp.background), //<-- SEE HERE
-                        borderRadius: BorderRadius.circular(50.0),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20.0,
-                  ),
-                  TextField(
-                    controller: con.descripcion,
-                    maxLines: 2,
-                    decoration: InputDecoration(
-                      hintText: 'Descripcion',
-                      contentPadding:
-                          EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            width: 1,
-                            color: ColorsApp.background), //<-- SEE HERE
-                        borderRadius: BorderRadius.circular(50.0),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            width: 1,
-                            color: ColorsApp.background), //<-- SEE HERE
-                        borderRadius: BorderRadius.circular(50.0),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20.0,
-                  ),
-                  TextField(
-                    controller: con.valor,
-                    decoration: InputDecoration(
-                      hintText: 'Valor (0.000)',
-                      contentPadding:
-                          EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            width: 1,
-                            color: ColorsApp.background), //<-- SEE HERE
-                        borderRadius: BorderRadius.circular(50.0),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            width: 1,
-                            color: ColorsApp.background), //<-- SEE HERE
-                        borderRadius: BorderRadius.circular(50.0),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20.0,
-                  ),
-                  TextField(
-                    controller: con.apuestaMaxima,
-                    decoration: InputDecoration(
-                      hintText: 'Apuesta maxima (0.000)',
-                      contentPadding:
-                          EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            width: 1,
-                            color: ColorsApp.background), //<-- SEE HERE
-                        borderRadius: BorderRadius.circular(50.0),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            width: 1,
-                            color: ColorsApp.background), //<-- SEE HERE
-                        borderRadius: BorderRadius.circular(50.0),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20.0,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      MaterialButton(
-                        color: ColorsApp.background,
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: Text(
-                          'Cancelar',
-                          style: TextStyle(color: ColorsApp.white),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 15.0,
-                      ),
-                      MaterialButton(
-                        color: ColorsApp.background,
-                        onPressed: () async {
-                          await con.agregarProbabilidad();
-                          Navigator.pop(context);
-
-                          setState(() {});
-                          //con.loading();
-
-                          //await con.saveTranferencia();
-                          //await con.getTranferencias();
-                          //con.cerrarModal();
-                          //setState(() {});
-                        },
-                        child: Text(
-                          'Guardar',
-                          style: TextStyle(color: ColorsApp.white),
-                        ),
-                      )
-                    ],
-                  )
-                ],
-              ),
-            ),
-          );
-        });
   }
 
   @override
@@ -210,7 +38,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
         appBar: AppBar(
           backgroundColor: ColorsApp.white,
           title: Text(
-            'Crear Evento',
+            'Editar Evento',
             style:
                 TextStyle(color: ColorsApp.black, fontWeight: FontWeight.bold),
           ),
@@ -335,20 +163,23 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                             ? DecorationImage(
                                 fit: BoxFit.cover,
                                 image: FileImage(File(con.imageFile!.path)))
-                            : null),
-                    child: con.imageFile == null
+                            : DecorationImage(
+                                fit: BoxFit.cover,
+                                image: NetworkImage(
+                                    '${Enviroment.imageURL}${con.event['image']}'))),
+                    /*child: con.imageFile == null
                         ? Icon(
                             Icons.upload_rounded,
                             color: ColorsApp.background,
                           )
-                        : null,
+                        : null,*/
                   ),
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 0.0),
                   child: MaterialButton(
                     onPressed: () async {
-                      con.saveEvent();
+                      //con.saveEvent();
                     }, //con.registrarUsuario(),
 
                     color: ColorsApp.background,
@@ -407,34 +238,5 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
         ),
       ),
     );
-  }
-
-  List<Widget> listProbabilidades() {
-    List<Widget> opt = [];
-    opt.add(Divider());
-    for (var i = 0; i < con.probabilidades.length; i++) {
-      final temp = Row(
-        children: [
-          Container(
-            width: 50.0,
-            alignment: Alignment.center,
-            child: Text('${i + 1}'),
-          ),
-          Expanded(
-            child: Container(
-              alignment: Alignment.center,
-              child: Text('${con.probabilidades[i]['name']}'),
-            ),
-          ),
-          Container(
-            width: 100.0,
-            alignment: Alignment.center,
-            child: Text('${con.probabilidades[i]['value']}'),
-          ),
-        ],
-      );
-      opt.add(temp);
-    }
-    return opt;
   }
 }

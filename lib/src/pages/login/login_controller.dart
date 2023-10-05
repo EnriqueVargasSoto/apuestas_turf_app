@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:tafur/src/utils/colors.dart';
 import 'package:tafur/src/utils/service.dart';
 import 'package:tafur/src/utils/shared_pref.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class LoginController {
   BuildContext? context;
@@ -157,5 +158,23 @@ class LoginController {
             actionsAlignment: MainAxisAlignment.center,
           );
         });
+  }
+
+  launchWhatsApp(String number) async {
+    // Número de teléfono de destino (debe incluir el código de país)
+    String phoneNumber =
+        number; //"+595985704200"; // Reemplaza con el número de teléfono deseado
+    // Mensaje predeterminado (opcional)
+    String message = "Hola, deseo hacer un depósito/retiro";
+
+    // URL de WhatsApp
+    String url = "https://wa.me/$phoneNumber/?text=${Uri.encodeFull(message)}";
+
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      // No se pudo abrir WhatsApp, manejar el caso de error aquí
+      print('No se pudo abrir WhatsApp.');
+    }
   }
 }

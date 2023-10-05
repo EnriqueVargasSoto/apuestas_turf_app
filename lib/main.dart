@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tafur/src/pages/admin/events/create_event_screen.dart';
+import 'package:tafur/src/pages/admin/events/edit_event_screen.dart';
 import 'package:tafur/src/pages/admin/users/cerate_user_screen.dart';
 import 'package:tafur/src/pages/admin/users/edit_user_screen.dart';
 import 'package:tafur/src/pages/login/login_screen.dart';
@@ -37,7 +38,8 @@ class MyApp extends StatelessWidget {
         '/main': (context) => const MainScreen(),
         '/create_user': (context) => const CreateUserScreen(),
         '/edit_user': (context) => const EditUserScreen(),
-        '/create_event': (context) => const CreateEventScreen()
+        '/create_event': (context) => const CreateEventScreen(),
+        '/edit_event': (context) => const EditEventScreen()
       },
     );
   }

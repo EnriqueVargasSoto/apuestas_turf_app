@@ -6,6 +6,7 @@ import 'package:tafur/src/pages/admin/profile/profile_screen.dart';
 import 'package:tafur/src/pages/admin/users/users_screen.dart';
 import 'package:tafur/src/pages/client/apuestas/apuestas_screen.dart';
 import 'package:tafur/src/pages/client/home/home_screen.dart';
+import 'package:tafur/src/pages/client/nosotros/nosotros_screen.dart';
 import 'package:tafur/src/utils/colors.dart';
 import 'package:tafur/src/utils/service.dart';
 import 'package:tafur/src/utils/shared_pref.dart';
@@ -32,6 +33,8 @@ class MainController {
   List<BottomNavigationBarItem> menuUser = [
     const BottomNavigationBarItem(icon: Icon(Icons.home), label: 'INICIO'),
     const BottomNavigationBarItem(
+        icon: Icon(Icons.business), label: 'NOSOTROS'),
+    const BottomNavigationBarItem(
         icon: Icon(Icons.monetization_on), label: 'MIS APUESTAS'),
     const BottomNavigationBarItem(icon: Icon(Icons.person), label: 'PERFIL')
   ];
@@ -46,18 +49,23 @@ class MainController {
 
   List<Widget> pagesClient = const [
     HomeScreen(),
+    NosotrosScreen(),
     ApuestasScreen(),
     ProfileScreen()
   ];
 
   List<Widget> pages = [];
 
+  bool loading = false;
+
   Future init(BuildContext context) async {
     this.context = context;
+    loading = true;
     sharedPref = SharedPref();
     await setearUser();
     await setearData();
     await getTranferencias();
+    loading = false;
   }
 
   Future setearUser() async {
