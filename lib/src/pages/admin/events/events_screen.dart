@@ -102,11 +102,20 @@ class _EventsScreenState extends State<EventsScreen> {
                       ),
                       itemBuilder: (context) => [
                         PopupMenuItem(
-                          child: Text('Editar'),
-                          value: 'Editar',
+                          child: Text('Probabilidades'),
+                          value: 'Probabilidad',
                         ),
                         PopupMenuItem(
-                          child: Text('Probabilidades'),
+                          child: Text('Activar'),
+                          value: 'Activar',
+                        ),
+                        PopupMenuItem(
+                          child: Text('Posponer'),
+                          value: 'Posponer',
+                        ),
+
+                        PopupMenuItem(
+                          child: Text('Terminar'),
                           value: 'Probabilidad',
                         ),
                         PopupMenuItem(
