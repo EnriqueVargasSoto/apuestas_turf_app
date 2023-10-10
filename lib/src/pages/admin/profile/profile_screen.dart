@@ -91,6 +91,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ),
               ),
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 10.0),
+                child: TextField(
+                  controller: con.password,
+                  //readOnly: true,
+                  decoration: InputDecoration(
+                    hintText: 'password',
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                          width: 1, color: ColorsApp.background), //<-- SEE HERE
+                      borderRadius: BorderRadius.circular(50.0),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                          width: 1, color: ColorsApp.background), //<-- SEE HERE
+                      borderRadius: BorderRadius.circular(50.0),
+                    ),
+                  ),
+                ),
+              ),
               /*Padding(
                 padding: EdgeInsets.symmetric(vertical: 10.0),
                 child: TextField(
@@ -173,6 +195,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ],
                       ))
                   : Container(),
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 15.0),
+                child: MaterialButton(
+                  onPressed: () async => await con.updatePassword(),
+                  color: ColorsApp.background,
+                  height: 45.0,
+                  minWidth: size!.width * 1,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15)),
+                  child: Text(
+                    'Actualizar Contraseña',
+                    style: TextStyle(
+                        fontSize: 18.0,
+                        color: ColorsApp.white,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 15.0),
                 child: MaterialButton(

@@ -108,6 +108,7 @@ class _EventsScreenState extends State<EventsScreen> {
                         PopupMenuItem(
                           child: Text('Activar'),
                           value: 'Activar',
+                          enabled: e['tag'] == 'Pendiente' ? true : false,
                         ),
                         PopupMenuItem(
                           child: Text('Posponer'),
@@ -116,7 +117,7 @@ class _EventsScreenState extends State<EventsScreen> {
 
                         PopupMenuItem(
                           child: Text('Terminar'),
-                          value: 'Probabilidad',
+                          value: 'Terminar',
                         ),
                         PopupMenuItem(
                           child: Text('Anular'),
@@ -124,10 +125,30 @@ class _EventsScreenState extends State<EventsScreen> {
                         ),
                         //PopupMenuItem(child: Text('Editar')),
                       ],
-                      onSelected: (value) {
-                        if (value == 'Editar') {
-                          // Access the root navigator and perform navigation
-                          con.editarEvento(e);
+                      onSelected: (value) async {
+                        switch (value) {
+                          case 'Probabilidad':
+                            con.probabilities(e);
+                            break;
+
+                          case 'Activar':
+                            await con.activar(e);
+                            break;
+
+                          case 'Posponer':
+                            await con.posponer(e);
+                            break;
+
+                          case 'Terminar':
+                            print('Terminar');
+                            break;
+
+                          case 'Anular':
+                            await con.anular(e);
+                            setState(() {});
+                            break;
+
+                          default:
                         }
                       },
                     ),

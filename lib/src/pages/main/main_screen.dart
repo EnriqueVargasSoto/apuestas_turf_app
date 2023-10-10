@@ -32,16 +32,20 @@ class _MainScreenState extends State<MainScreen> {
           ? Scaffold(
               appBar: AppBar(
                 backgroundColor: ColorsApp.white,
-                leading: Padding(
-                  padding: EdgeInsets.only(left: 0.0),
-                  child: Image.asset(
-                    'assets/Prueba.png',
-                    //height: 80.0,
-                  ),
-                ),
+                leading: IconButton(
+                    onPressed: () {},
+                    icon: Icon(
+                      Icons.shopping_basket_outlined,
+                      color: ColorsApp.black,
+                    )),
+
                 title: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    Image.asset(
+                      'assets/Prueba.png',
+                      height: 40.0,
+                    ),
                     Text(
                       'Apuestas Turf',
                       style: TextStyle(
@@ -54,7 +58,7 @@ class _MainScreenState extends State<MainScreen> {
                 centerTitle: true,
                 //leading: Image.assets('assets/')
                 actions: [
-                  con.loading == true
+                  con.loading == false
                       ? con.user['user']['role_id'] != '1'
                           ? Center(
                               child: Column(

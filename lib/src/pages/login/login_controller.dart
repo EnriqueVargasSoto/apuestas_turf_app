@@ -165,7 +165,7 @@ class LoginController {
     String phoneNumber =
         number; //"+595985704200"; // Reemplaza con el número de teléfono deseado
     // Mensaje predeterminado (opcional)
-    String message = "Hola, deseo hacer un depósito/retiro";
+    String message = "Hola, deseo información sobre Apuestas Turf";
 
     // URL de WhatsApp
     String url = "https://wa.me/$phoneNumber/?text=${Uri.encodeFull(message)}";

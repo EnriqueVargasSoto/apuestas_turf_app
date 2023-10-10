@@ -20,6 +20,7 @@ class CreateUserController {
       'names': names.text.trim(),
       'email': '${email.text.trim()}@turf.com',
       'password': password.text.trim(),
+      'clave': password.text.trim(),
       'credit': '0.000',
       'status': 'active',
       'role_id': '2'

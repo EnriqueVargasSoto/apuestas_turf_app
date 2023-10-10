@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:tafur/src/utils/colors.dart';
 import 'package:tafur/src/utils/service.dart';
 
@@ -10,6 +11,8 @@ class EventsController {
   GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
   List<dynamic> eventos = [];
+
+  String newDate = '';
 
   Future init(BuildContext context) async {
     this.context = context;
@@ -34,6 +37,90 @@ class EventsController {
       eventos = resp['data'];
       print(eventos);
     });
+  }
+
+  Future activar(event) async {
+    loading();
+
+    Map<String, String> bodyPosponer = {
+      'type': event['type'],
+      'name': event['name'],
+      'date': event['date'],
+      'tag': 'Activo',
+      'status': event['status'],
+      '_method': 'PUT',
+    };
+
+    await Service.consulta('events/${event['id']}', 'post', bodyPosponer)
+        .then((value) {
+      print(value.body);
+
+      cerrarModal();
+      Navigator.pushNamedAndRemoveUntil(context!, '/main', (route) => false);
+    });
+  }
+
+  Future anular(event) async {
+    loading();
+
+    Map<String, String> bodyPosponer = {
+      'type': event['type'],
+      'name': event['name'],
+      'date': event['date'],
+      'tag': 'Anulado',
+      'status': event['status'],
+      '_method': 'PUT',
+    };
+
+    await Service.consulta('events/${event['id']}', 'post', bodyPosponer)
+        .then((value) {
+      print(value.body);
+
+      cerrarModal();
+      Navigator.pushNamedAndRemoveUntil(context!, '/main', (route) => false);
+    });
+  }
+
+  Future posponer(event) async {
+    await DatePicker.showDateTimePicker(
+      context!,
+      showTitleActions: true,
+      minTime: DateTime(2023, 1, 1),
+      maxTime: DateTime(2101, 12, 31),
+      onChanged: (date) {
+        print('onChanged: $date');
+      },
+      onConfirm: (date) async {
+        loading();
+        newDate = date.toString();
+        print(newDate);
+
+        Map<String, String> bodyPosponer = {
+          'type': event['type'],
+          'name': event['name'],
+          'date': newDate,
+          'tag': event['tag'],
+          'status': event['status'],
+          '_method': 'PUT',
+        };
+
+        await Service.consulta('events/${event['id']}', 'post', bodyPosponer)
+            .then((value) {
+          print(value.body);
+
+          cerrarModal();
+        });
+        //setState(() {
+        //selectedDate = date;
+        //});
+      },
+      currentTime: DateTime.now(),
+      locale: LocaleType.es, // Cambia a tu idioma deseado
+    );
+  }
+
+  void probabilities(event) {
+    Navigator.pushNamed(context!, '/probabilities', arguments: event);
   }
 
   void loading() {

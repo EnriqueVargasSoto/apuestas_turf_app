@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:tafur/src/utils/colors.dart';
+import 'package:tafur/src/utils/service.dart';
 import 'package:tafur/src/utils/shared_pref.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -27,6 +28,7 @@ class ProfileController {
   Future setearData() async {
     dynamic resp = await sharedPref!.read('user');
     user = jsonDecode(resp);
+    user['user']['clave'] != null ? password.text = user['user']['clave'] : '';
     names.text = user['user']['names'];
     email.text = user['user']['email']
         .toString()
@@ -130,5 +132,42 @@ class ProfileController {
       // No se pudo abrir WhatsApp, manejar el caso de error aquí
       print('No se pudo abrir WhatsApp.');
     }
+  }
+
+  Future updateImage() async {}
+
+  Future updatePassword() async {
+    Map<String, String> bodyPassword = {'password': password.text};
+
+    await Service.consulta(
+            'actualiza-password/${user['user']['id']}', 'post', bodyPassword)
+        .then((value) async {
+      print(value.body);
+      await login();
+    });
+  }
+
+  Future login() async {
+    loading();
+    Map<String, String> body = {
+      'email': '${email.text.trim()}@turf.com',
+      'password': password.text.trim()
+    };
+    try {
+      sharedPref!.clear();
+      await Service.consulta('login', 'post', body).then((value) {
+        dynamic respuesta = jsonDecode(value.body);
+        print(respuesta);
+        cerrarModal();
+        //if (respuesta['user']['status'] == 'active') {
+        sharedPref!.save('user', value.body);
+      });
+    } catch (e) {
+      cerrarModal();
+      modalMensaje(e.toString(), 500);
+    }
+
+    //await Service.consulta('login', 'post', body).then((value) {});
+    //Navigator.pushNamedAndRemoveUntil(context!, '/main', (route) => false);
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:tafur/src/enviroment/enviroment.dart';
 import 'package:tafur/src/pages/client/home/home_controller.dart';
 import 'package:tafur/src/utils/colors.dart';
 
@@ -44,38 +45,36 @@ class _HomeScreenState extends State<HomeScreen> {
         Expanded(
             child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: Column(
-            children: [
-              /*Container(
-                width: size!.width * 1.0,
-                height: 120.0,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(width: 1.0, color: ColorsApp.black)),
-                child: Icon(
-                  Icons.add_circle_outline_sharp,
-                  size: 90.0,
-                  color: ColorsApp.background,
-                ),
-              ),
-              const SizedBox(
-                height: 10.0,
-              ),*/
-              Container(
-                width: size!.width * 1.0,
-                height: 120.0,
-                decoration: BoxDecoration(
-                    image: const DecorationImage(
-                        image: NetworkImage(
-                            'https://depor.com/resizer/bp0-3vhUuw12xTWyX7WaOjCDXU4=/580x330/smart/filters:format(jpeg):quality(75)/cloudfront-us-east-1.images.arcpublishing.com/elcomercio/YRFBTBFFD5GCFK3TEHAEOUR5UQ.jpg'),
-                        fit: BoxFit.fitWidth),
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(width: 1.0, color: ColorsApp.black)),
-              ),
-            ],
+          child: ListView(
+            children: listEventos(),
           ),
         ))
       ],
     );
+  }
+
+  List<Widget> listEventos() {
+    List<Widget> opt = [];
+
+    for (var i = 0; i < con.eventos.length; i++) {
+      final temp = GestureDetector(
+        onTap: () => con.detailEvent(con.eventos[i]),
+        child: Container(
+          margin: EdgeInsets.symmetric(vertical: 10.0),
+          width: size!.width * 1.0,
+          height: 150.0,
+          decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: NetworkImage(
+                      '${Enviroment.imageURL}${con.eventos[i]['image']}'),
+                  fit: BoxFit.fitWidth),
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(width: 1.0, color: ColorsApp.black)),
+        ),
+      );
+      opt.add(temp);
+    }
+
+    return opt;
   }
 }
