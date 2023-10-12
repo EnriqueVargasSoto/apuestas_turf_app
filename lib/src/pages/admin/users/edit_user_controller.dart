@@ -38,9 +38,9 @@ class EditUserController {
     monto.text = montoDouble.toStringAsFixed(2);
     montoTransferencia.text = '0.00';
     //sharedPref = SharedPref();
-    loading();
     await setearData();
     await getTranferencias();
+    loading();
     cerrarModal();
   }
 
@@ -163,15 +163,54 @@ class EditUserController {
   }
 
   Future saveTranferencia() async {
-    Map<String, String> body = {
-      'user_id': user['id'].toString(),
-      'type': tipo.dropDownValue!.value,
-      'amount': montoTransferencia.text
-    };
+    if (montoDouble >= double.parse(montoTransferencia.text)) {
+      Map<String, String> body = {
+        'user_id': user['id'].toString(),
+        'type': tipo.dropDownValue!.value,
+        'amount': montoTransferencia.text
+      };
 
-    await Service.consulta('transactions', 'post', body).then((value) {
-      print(value.body);
-    });
+      await Service.consulta('transactions', 'post', body).then((value) {
+        print(value.body);
+      });
+    } else {
+      showDialog(
+          context: context!,
+          builder: (BuildContext context) {
+            return Dialog(
+              child: Container(
+                padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'No tienes saldo suficiente',
+                      style: TextStyle(
+                          color: ColorsApp.black,
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      height: 20.0,
+                    ),
+                    MaterialButton(
+                      color: ColorsApp.background,
+                      onPressed: () {
+                        Navigator.pop(context); // Cierra el diálogo de error
+
+                        // Luego, realiza la carga o la acción que desees
+                      },
+                      child: Text(
+                        'Aceptar',
+                        style: TextStyle(color: ColorsApp.white),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            );
+          });
+    }
   }
 
   void loading() {
