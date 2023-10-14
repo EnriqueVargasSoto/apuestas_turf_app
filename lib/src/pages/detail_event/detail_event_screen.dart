@@ -15,164 +15,34 @@ class DetailEventScreen extends StatefulWidget {
 class _DetailEventScreenState extends State<DetailEventScreen> {
   DetailEvenController con = DetailEvenController();
   Size? size;
+  int? selectedProbability;
+
+  void selectProbability(int index) {
+    setState(() {
+      selectedProbability = index;
+    });
+  }
 
   void agregarEvento(probabilidad) {
     con.probabilidad.text = probabilidad['value'];
     con.montoApuesta = TextEditingController();
-    //con.valor = TextEditingController();
-    //con.apuestaMaxima = TextEditingController();
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return Dialog(
-            //insetPadding: EdgeInsets.symmetric(vertical: 20.0),
-            child: Container(
-              padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  /*TextField(
-                    //controller: con.nameProbabilidad,
-                    decoration: InputDecoration(
-                      hintText: 'Probabilidad',
-                      contentPadding:
-                          EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            width: 1,
-                            color: ColorsApp.background), //<-- SEE HERE
-                        borderRadius: BorderRadius.circular(50.0),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            width: 1,
-                            color: ColorsApp.background), //<-- SEE HERE
-                        borderRadius: BorderRadius.circular(50.0),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20.0,
-                  ),
-                  TextField(
-                    //controller: con.descripcion,
-                    maxLines: 2,
-                    decoration: InputDecoration(
-                      hintText: 'Descripcion',
-                      contentPadding:
-                          EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            width: 1,
-                            color: ColorsApp.background), //<-- SEE HERE
-                        borderRadius: BorderRadius.circular(50.0),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            width: 1,
-                            color: ColorsApp.background), //<-- SEE HERE
-                        borderRadius: BorderRadius.circular(50.0),
-                      ),
-                    ),
-                  ),*/
-                  SizedBox(
-                    height: 20.0,
-                  ),
-                  TextField(
-                    controller: con.probabilidad,
-                    decoration: InputDecoration(
-                      hintText: 'Valor (0.000)',
-                      contentPadding:
-                          EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            width: 1,
-                            color: ColorsApp.background), //<-- SEE HERE
-                        borderRadius: BorderRadius.circular(50.0),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            width: 1,
-                            color: ColorsApp.background), //<-- SEE HERE
-                        borderRadius: BorderRadius.circular(50.0),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20.0,
-                  ),
-                  TextField(
-                    //controller: con.apuestaMaxima,
-                    decoration: InputDecoration(
-                      hintText: 'monto a apostar',
-                      contentPadding:
-                          EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            width: 1,
-                            color: ColorsApp.background), //<-- SEE HERE
-                        borderRadius: BorderRadius.circular(50.0),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            width: 1,
-                            color: ColorsApp.background), //<-- SEE HERE
-                        borderRadius: BorderRadius.circular(50.0),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20.0,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      MaterialButton(
-                        color: ColorsApp.background,
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: Text(
-                          'Cancelar',
-                          style: TextStyle(color: ColorsApp.white),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 15.0,
-                      ),
-                      MaterialButton(
-                        color: ColorsApp.background,
-                        onPressed: () async {
-                          probabilidad['montoApuesta'] = con.montoApuesta.text;
-                          CartEvents.bets.add(probabilidad);
-                          Navigator.pop(context);
-                          Navigator.pop(context);
-                          /*await con.saveProbabilidad().then((value) {
-                            setState(() {});
-                          });*/
-                        },
-                        child: Text(
-                          'Añadir',
-                          style: TextStyle(color: ColorsApp.white),
-                        ),
-                      )
-                    ],
-                  )
-                ],
-              ),
-            ),
-          );
-        });
+    probabilidad['montoApuesta'] = con.montoApuesta.text;
+    CartEvents.bets.add(probabilidad);
+    setState(() {
+      selectedProbability = con.event['probabilities'].indexOf(probabilidad);
+    });
   }
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) async {
       Map event = ModalRoute.of(context)!.settings.arguments as Map;
       await con.init(context, event);
-      setState(() {});
+      setState(() {
+        // Set the selected probability to the first one by default
+        selectedProbability;
+      });
     });
   }
 
@@ -295,13 +165,17 @@ class _DetailEventScreenState extends State<DetailEventScreen> {
       final temp = GestureDetector(
         onTap: () {
           agregarEvento(con.event['probabilities'][i]);
+          selectProbability(i);
         },
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
           margin: EdgeInsets.symmetric(vertical: 5.0),
           decoration: BoxDecoration(
               border: Border.all(width: 1.0, color: ColorsApp.background),
-              borderRadius: BorderRadius.circular(8.0)),
+              borderRadius: BorderRadius.circular(8.0),
+              color: selectedProbability == i
+                  ? ColorsApp.background
+                  : ColorsApp.white),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
