@@ -7,6 +7,7 @@ import 'package:tafur/src/pages/detail_event/detail_event_screen.dart';
 import 'package:tafur/src/pages/login/login_screen.dart';
 import 'package:tafur/src/pages/main/main_screen.dart';
 import 'package:tafur/src/pages/probabilities/probabilities_screen.dart';
+import 'package:tafur/src/pages/statistics/statistics_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -38,6 +39,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/login': (context) => const LoginScreen(),
         '/main': (context) => const MainScreen(),
+        '/statitics': (context) => const StatisticsScreen(),
         '/create_user': (context) => const CreateUserScreen(),
         '/edit_user': (context) => const EditUserScreen(),
         '/create_event': (context) => const CreateEventScreen(),

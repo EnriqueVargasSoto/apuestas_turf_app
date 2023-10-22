@@ -259,18 +259,28 @@ class _ProbabilitiesScreenState extends State<ProbabilitiesScreen> {
               ],
             ),
             con.event['tag'] == 'Pendiente'
-                ? IconButton(
-                    onPressed: () async {
-                      await con
-                          .inactivarProbaiblidad(con.probabilidades[i])
-                          .then((value) {
-                        setState(() {});
-                      });
-                    },
-                    icon: const Icon(
-                      Icons.delete,
-                      color: Colors.red,
-                    ))
+                ? Row(
+                    children: [
+                      IconButton(
+                          onPressed: () async {
+                            con.estadistica(con.probabilidades[i]);
+                          },
+                          icon: const Icon(Icons.remove_red_eye_outlined,
+                              color: Colors.grey)),
+                      IconButton(
+                          onPressed: () async {
+                            await con
+                                .inactivarProbaiblidad(con.probabilidades[i])
+                                .then((value) {
+                              setState(() {});
+                            });
+                          },
+                          icon: const Icon(
+                            Icons.delete,
+                            color: Colors.red,
+                          )),
+                    ],
+                  )
                 : Container()
           ],
         ),

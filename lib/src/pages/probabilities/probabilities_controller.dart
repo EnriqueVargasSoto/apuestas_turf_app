@@ -17,6 +17,10 @@ class ProbabilitiesController {
 
   List<dynamic> probabilidades = [];
 
+  void estadistica(event) {
+    Navigator.pushNamed(context!, '/statitics', arguments: event);
+  }
+
   Future init(BuildContext context, Map event) async {
     this.event = event;
     this.context = context;
