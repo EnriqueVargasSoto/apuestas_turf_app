@@ -10,6 +10,7 @@ class StatisticsScreen extends StatefulWidget {
 }
 
 class _StatisticsScreenState extends State<StatisticsScreen> {
+  Size? size;
   /* StatisticsController con = StatisticsController(); */
 
   @override
@@ -20,6 +21,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: ColorsApp.white,
@@ -44,6 +46,29 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
             ),
           ),
           SizedBox(height: 15.0),
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 20.0),
+            child: MaterialButton(
+              /* enableFeedback: con.event['tag'] == 'Pendiente' ? false : true, */
+              onPressed: () async {
+                //con.saveEvent();
+                /* con.event['tag'] == 'Pendiente' ? nuevaProbabilidad() : null; */
+              }, //con.registrarUsuario(),
+
+              color: ColorsApp.background,
+              height: 45.0,
+              minWidth: size!.width * 1,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15)),
+              child: Text(
+                'Crear Estadistica',
+                style: TextStyle(
+                    fontSize: 18.0,
+                    color: ColorsApp.white,
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
+          ),
           Expanded(
             child: Container(
               margin: EdgeInsets.symmetric(horizontal: 20.0),
