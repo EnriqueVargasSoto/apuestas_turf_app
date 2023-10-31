@@ -24,10 +24,10 @@ class MainController {
 
   int currentIndex = 0;
 
-  List<BottomNavigationBarItem> menuAdmin = [
-    const BottomNavigationBarItem(icon: Icon(Icons.group), label: 'USUARIOS'),
-    const BottomNavigationBarItem(icon: Icon(Icons.event), label: 'EVENTOS'),
-    const BottomNavigationBarItem(icon: Icon(Icons.person), label: 'PERFIL')
+  List<BottomNavigationBarItem> menuAdmin = const [
+    BottomNavigationBarItem(icon: Icon(Icons.group), label: 'USUARIOS'),
+    BottomNavigationBarItem(icon: Icon(Icons.event), label: 'EVENTOS'),
+    BottomNavigationBarItem(icon: Icon(Icons.person), label: 'PERFIL')
   ];
 
   List<BottomNavigationBarItem> menuUser = [
@@ -60,6 +60,9 @@ class MainController {
 
   Future init(BuildContext context) async {
     this.context = context;
+    menuSelected = menuAdmin;
+    currentIndex = 0;
+    pages = pagesAdmin;
     loading = true;
     sharedPref = SharedPref();
     await setearUser();

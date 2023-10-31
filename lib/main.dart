@@ -3,6 +3,7 @@ import 'package:tafur/src/pages/admin/events/create_event_screen.dart';
 import 'package:tafur/src/pages/admin/events/edit_event_screen.dart';
 import 'package:tafur/src/pages/admin/users/cerate_user_screen.dart';
 import 'package:tafur/src/pages/admin/users/edit_user_screen.dart';
+import 'package:tafur/src/pages/client/apuesta/apuesta_screen.dart';
 import 'package:tafur/src/pages/detail_event/detail_event_screen.dart';
 import 'package:tafur/src/pages/login/login_screen.dart';
 import 'package:tafur/src/pages/main/main_screen.dart';
@@ -45,7 +46,8 @@ class MyApp extends StatelessWidget {
         '/create_event': (context) => const CreateEventScreen(),
         '/edit_event': (context) => const EditEventScreen(),
         '/probabilities': (context) => const ProbabilitiesScreen(),
-        '/detail_event': (context) => const DetailEventScreen()
+        '/detail_event': (context) => const DetailEventScreen(),
+        '/apuesta': (context) => const ApuestaScreen(),
       },
     );
   }

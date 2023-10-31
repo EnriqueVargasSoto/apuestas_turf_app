@@ -160,6 +160,154 @@ class _ProbabilitiesScreenState extends State<ProbabilitiesScreen> {
         });
   }
 
+  void editarProbabilidad(probabilidad) {
+    con.nameProbabilidad.text = probabilidad['name'];
+    con.descripcion.text = probabilidad['description'];
+    con.valor.text = probabilidad['value'];
+    con.apuestaMaxima.text = probabilidad['max'];
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Dialog(
+            //insetPadding: EdgeInsets.symmetric(vertical: 20.0),
+            child: Container(
+              padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TextField(
+                    controller: con.nameProbabilidad,
+                    decoration: InputDecoration(
+                      hintText: 'Probabilidad',
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                            width: 1,
+                            color: ColorsApp.background), //<-- SEE HERE
+                        borderRadius: BorderRadius.circular(50.0),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                            width: 1,
+                            color: ColorsApp.background), //<-- SEE HERE
+                        borderRadius: BorderRadius.circular(50.0),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20.0,
+                  ),
+                  TextField(
+                    controller: con.descripcion,
+                    maxLines: 1,
+                    decoration: InputDecoration(
+                      hintText: 'Descripcion',
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                            width: 1,
+                            color: ColorsApp.background), //<-- SEE HERE
+                        borderRadius: BorderRadius.circular(50.0),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                            width: 1,
+                            color: ColorsApp.background), //<-- SEE HERE
+                        borderRadius: BorderRadius.circular(50.0),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20.0,
+                  ),
+                  TextField(
+                    controller: con.valor,
+                    decoration: InputDecoration(
+                      hintText: 'Valor (0.000)',
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                            width: 1,
+                            color: ColorsApp.background), //<-- SEE HERE
+                        borderRadius: BorderRadius.circular(50.0),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                            width: 1,
+                            color: ColorsApp.background), //<-- SEE HERE
+                        borderRadius: BorderRadius.circular(50.0),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20.0,
+                  ),
+                  TextField(
+                    controller: con.apuestaMaxima,
+                    decoration: InputDecoration(
+                      hintText: 'Apuesta maxima (0.000)',
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                            width: 1,
+                            color: ColorsApp.background), //<-- SEE HERE
+                        borderRadius: BorderRadius.circular(50.0),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                            width: 1,
+                            color: ColorsApp.background), //<-- SEE HERE
+                        borderRadius: BorderRadius.circular(50.0),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20.0,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      MaterialButton(
+                        color: ColorsApp.background,
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text(
+                          'Cancelar',
+                          style: TextStyle(color: ColorsApp.white),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 15.0,
+                      ),
+                      MaterialButton(
+                        color: ColorsApp.background,
+                        onPressed: () async {
+                          Navigator.pop(context);
+                          await con
+                              .updateProbailidad(probabilidad)
+                              .then((value) {
+                            setState(() {});
+                          });
+                        },
+                        child: Text(
+                          'Guardar',
+                          style: TextStyle(color: ColorsApp.white),
+                        ),
+                      )
+                    ],
+                  )
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -258,30 +406,33 @@ class _ProbabilitiesScreenState extends State<ProbabilitiesScreen> {
                 Text('Msx. apuesta: ${con.probabilidades[i]['max']}'),
               ],
             ),
-            con.event['tag'] == 'Pendiente'
-                ? Row(
-                    children: [
-                      IconButton(
-                          onPressed: () async {
-                            con.estadistica(con.probabilidades[i]);
-                          },
-                          icon: const Icon(Icons.remove_red_eye_outlined,
-                              color: Colors.grey)),
-                      IconButton(
-                          onPressed: () async {
-                            await con
-                                .inactivarProbaiblidad(con.probabilidades[i])
-                                .then((value) {
-                              setState(() {});
-                            });
-                          },
-                          icon: const Icon(
-                            Icons.delete,
-                            color: Colors.red,
-                          )),
-                    ],
-                  )
-                : Container()
+            Row(
+              children: [
+                IconButton(
+                    onPressed: () async {
+                      con.estadistica(con.probabilidades[i]);
+                    },
+                    icon: const Icon(Icons.remove_red_eye_outlined,
+                        color: Colors.grey)),
+                IconButton(
+                    onPressed: () async {
+                      editarProbabilidad(con.probabilidades[i]);
+                    },
+                    icon: const Icon(Icons.edit, color: Colors.blue)),
+                IconButton(
+                    onPressed: () async {
+                      await con
+                          .inactivarProbaiblidad(con.probabilidades[i])
+                          .then((value) {
+                        setState(() {});
+                      });
+                    },
+                    icon: const Icon(
+                      Icons.delete,
+                      color: Colors.red,
+                    )),
+              ],
+            )
           ],
         ),
       );

@@ -54,6 +54,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   readOnly: true,
                   decoration: InputDecoration(
                     hintText: 'Nombres',
+                    label: Text('Nombres'),
                     contentPadding:
                         EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
                     enabledBorder: OutlineInputBorder(
@@ -76,6 +77,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   readOnly: true,
                   decoration: InputDecoration(
                     hintText: 'usuario',
+                    label: Text('Usuario'),
                     contentPadding:
                         EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
                     enabledBorder: OutlineInputBorder(
@@ -98,6 +100,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   //readOnly: true,
                   decoration: InputDecoration(
                     hintText: 'password',
+                    label: Text('Password'),
                     contentPadding:
                         EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
                     enabledBorder: OutlineInputBorder(

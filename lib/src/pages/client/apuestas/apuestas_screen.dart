@@ -41,26 +41,11 @@ class _ApuestasScreenState extends State<ApuestasScreen> {
                 fontWeight: FontWeight.bold),
           ),
         ),
-        Expanded(
+        /*Expanded(
             child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Column(
             children: [
-              /*Container(
-                width: size!.width * 1.0,
-                height: 120.0,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(width: 1.0, color: ColorsApp.black)),
-                child: Icon(
-                  Icons.add_circle_outline_sharp,
-                  size: 90.0,
-                  color: ColorsApp.background,
-                ),
-              ),
-              const SizedBox(
-                height: 10.0,
-              ),*/
               Container(
                 width: size!.width * 1.0,
                 height: 120.0,
@@ -74,7 +59,7 @@ class _ApuestasScreenState extends State<ApuestasScreen> {
               ),
             ],
           ),
-        ))
+        ))*/
       ],
     );
   }

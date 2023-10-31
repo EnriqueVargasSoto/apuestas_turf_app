@@ -32,12 +32,18 @@ class _MainScreenState extends State<MainScreen> {
           ? Scaffold(
               appBar: AppBar(
                 backgroundColor: ColorsApp.white,
-                leading: IconButton(
-                    onPressed: () {},
-                    icon: Icon(
-                      Icons.shopping_basket_outlined,
-                      color: ColorsApp.black,
-                    )),
+                leading: con.loading == false
+                    ? con.user['user']['role_id'] != '1'
+                        ? IconButton(
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/apuesta');
+                            },
+                            icon: Icon(
+                              Icons.shopping_basket_outlined,
+                              color: ColorsApp.black,
+                            ))
+                        : Container()
+                    : Container(),
 
                 title: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -86,7 +92,7 @@ class _MainScreenState extends State<MainScreen> {
                             )
                       : Container(),
                   const SizedBox(
-                    width: 10.0,
+                    width: 0.0,
                   ),
                 ],
               ),
@@ -95,24 +101,23 @@ class _MainScreenState extends State<MainScreen> {
                   : CircularProgressIndicator(
                       color: ColorsApp.background,
                     ),
-              bottomNavigationBar: con.loading == false
-                  ? BottomNavigationBar(
-                      type: BottomNavigationBarType.shifting,
-                      showUnselectedLabels: true,
-                      unselectedItemColor: ColorsApp.black,
-                      selectedItemColor: ColorsApp.background,
-                      currentIndex: con.currentIndex,
-                      unselectedFontSize: 10.0,
-                      selectedFontSize: 10.0,
-                      onTap: (index) {
-                        setState(() {
-                          con.currentIndex = index;
-                        });
-                      },
-                      items: con.menuSelected,
-                    )
-                  : Container(),
-            )
+              bottomNavigationBar: BottomNavigationBar(
+                type: BottomNavigationBarType.shifting,
+                showUnselectedLabels: true,
+                unselectedItemColor: ColorsApp.black,
+                selectedItemColor: ColorsApp.background,
+                currentIndex: con.currentIndex,
+                unselectedFontSize: 10.0,
+                selectedFontSize: 10.0,
+                onTap: (index) {
+                  setState(() {
+                    con.currentIndex = index;
+                  });
+                },
+                items: con.menuSelected,
+              )
+              //: Container(),
+              )
           : CircularProgressIndicator(
               color: ColorsApp.background,
             ),

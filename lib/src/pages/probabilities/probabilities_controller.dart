@@ -108,4 +108,24 @@ class ProbabilitiesController {
   void cerrarModal() {
     Navigator.pop(context!);
   }
+
+  Future updateProbailidad(probability) async {
+    loading();
+    Map<String, String> bodyProbabilidad = {
+      'name': nameProbabilidad.text,
+      'description': descripcion.text,
+      'value': valor.text,
+      'max': apuestaMaxima.text,
+      'max_aux': apuestaMaxima.text,
+      'event_id': event['id'].toString()
+    };
+
+    await Service.consulta(
+            'probabilities/${probability['id']}', 'put', bodyProbabilidad)
+        .then((value) async {
+      print(value.body);
+      await getProbabilidades();
+      cerrarModal();
+    });
+  }
 }
