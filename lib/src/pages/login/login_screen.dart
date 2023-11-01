@@ -11,6 +11,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  bool _obscureText = true;
   final LoginController con = LoginController();
   Size? size;
 
@@ -88,7 +89,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         expaciado(size!.height * 0.025),
                         TextField(
                           controller: con.password,
-                          obscureText: true,
+                          obscureText: _obscureText,
                           style: TextStyle(color: ColorsApp.background),
                           decoration: InputDecoration(
                             fillColor: ColorsApp.white,
@@ -107,6 +108,18 @@ class _LoginScreenState extends State<LoginScreen> {
                                   color: ColorsApp.borderInput), //<-- SEE HERE
                               borderRadius: BorderRadius.circular(9.0),
                             ),
+                            suffixIcon: IconButton(
+                                icon: Icon(
+                                  _obscureText
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
+                                  color: ColorsApp.background,
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    _obscureText = !_obscureText;
+                                  });
+                                }),
                             disabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(
                                   width: 1,
