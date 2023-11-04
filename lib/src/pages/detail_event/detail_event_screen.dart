@@ -60,6 +60,12 @@ class _DetailEventScreenState extends State<DetailEventScreen> {
                 TextStyle(color: ColorsApp.black, fontWeight: FontWeight.bold),
           ),
           foregroundColor: ColorsApp.black,
+          leading: IconButton(
+              onPressed: () {
+                Navigator.pushNamedAndRemoveUntil(
+                    context, '/main', (route) => false);
+              },
+              icon: Icon(Icons.arrow_back)),
         ),
         body: Container(
           width: size!.width * 1,

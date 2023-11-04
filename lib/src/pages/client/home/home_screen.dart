@@ -58,7 +58,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
     for (var i = 0; i < con.eventos.length; i++) {
       final temp = GestureDetector(
-        onTap: () => con.detailEvent(con.eventos[i]),
+        onTap: () {
+          con.detailEvent(con.eventos[i]);
+          /*final result = Navigator.pushNamed(context, '/detail_event',
+              arguments: con.eventos[i]);
+          if (result != null) {
+            setState(() {});
+          }*/
+        },
         child: Container(
           margin: EdgeInsets.symmetric(vertical: 10.0),
           width: size!.width * 1.0,

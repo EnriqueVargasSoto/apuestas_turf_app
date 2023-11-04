@@ -1,6 +1,8 @@
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:tafur/src/pages/main/main_controller.dart';
+import 'package:tafur/src/utils/cart.dart';
 import 'package:tafur/src/utils/colors.dart';
 
 class MainScreen extends StatefulWidget {
@@ -38,10 +40,19 @@ class _MainScreenState extends State<MainScreen> {
                             onPressed: () {
                               Navigator.pushNamed(context, '/apuesta');
                             },
-                            icon: Icon(
-                              Icons.shopping_basket_outlined,
-                              color: ColorsApp.black,
-                            ))
+                            icon: CartEvents.bets.length > 0
+                                ? Badge(
+                                    badgeContent:
+                                        Text('${CartEvents.bets.length}'),
+                                    child: Icon(
+                                      Icons.shopping_basket_outlined,
+                                      color: ColorsApp.black,
+                                    ),
+                                  )
+                                : Icon(
+                                    Icons.shopping_basket_outlined,
+                                    color: ColorsApp.black,
+                                  ))
                         : Container()
                     : Container(),
 
