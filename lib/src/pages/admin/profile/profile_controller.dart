@@ -44,10 +44,21 @@ class ProfileController {
       this.image = imageTemp;
       var request = http.MultipartRequest('POST', Uri.parse(url))
         ..headers.addAll(headers)
-        ..files.add(await http.MultipartFile.fromPath('image', image!.path));
+        ..files.add(await http.MultipartFile.fromPath('image', image.path));
 
       var response = await request.send();
       print(response.statusCode);
+
+      Map<String, String> body = {
+        'email': user['user']['email'],
+        'password': user['user']['clave']
+      };
+      await Service.consulta('login', 'post', body).then((value) async {
+        if (value.statusCode == 200) {
+          await sharedPref!.clear();
+          sharedPref!.save('user', value.body);
+        }
+      });
       //nameImage.text = image.name;
     } on PlatformException catch (e) {
       print('Failed to pick image: $e');

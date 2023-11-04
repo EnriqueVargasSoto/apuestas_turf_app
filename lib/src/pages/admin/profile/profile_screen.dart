@@ -45,10 +45,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ClipRect(
                       child: con.image != null
                           ? Image.file(con.image!)
-                          : Image.asset(
-                              'assets/perfil.png',
-                              height: 130.0,
-                            ),
+                          : con.user['user']['name'] == null
+                              ? Image.asset(
+                                  'assets/perfil.png',
+                                  height: 130.0,
+                                )
+                              : Image.network(con.user['user']['name']),
                     ),
                     Positioned(
                         width: 45,
@@ -56,7 +58,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         right: 0,
                         bottom: 0,
                         child: GestureDetector(
-                          onTap: () async => await con.pickImage(),
+                          onTap: () async {
+                            await con.pickImage().then((value) {
+                              setState(() {});
+                            });
+                          },
                           child: Container(
                             decoration: BoxDecoration(
                                 color: ColorsApp.background,
