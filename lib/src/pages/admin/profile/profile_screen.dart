@@ -44,13 +44,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   children: <Widget>[
                     ClipRect(
                       child: con.image != null
-                          ? Image.file(con.image!)
+                          ? Column(children: [
+                              Container(
+                                  width: 130,
+                                  height: 130,
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      image: DecorationImage(
+                                          image: Image.file(con.image!).image,
+                                          fit: BoxFit.cover))),
+                            ])
                           : con.user['user']['name'] == null
                               ? Image.asset(
                                   'assets/perfil.png',
                                   height: 130.0,
                                 )
-                              : Image.network(con.user['user']['name']),
+                              : Container(
+                                  width: 130,
+                                  height: 130,
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      image: DecorationImage(
+                                          image: NetworkImage(
+                                              'https://apuestas-turf.com/storage/' +
+                                                  con.user['user']['name']),
+                                          fit: BoxFit.cover))),
                     ),
                     Positioned(
                         width: 45,
@@ -60,6 +78,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         child: GestureDetector(
                           onTap: () async {
                             await con.pickImage().then((value) {
+                              print(con.user['user']['name']);
                               setState(() {});
                             });
                           },

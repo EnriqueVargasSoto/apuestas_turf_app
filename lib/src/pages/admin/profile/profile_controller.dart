@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
@@ -8,7 +9,7 @@ import 'package:tafur/src/utils/colors.dart';
 import 'package:tafur/src/utils/service.dart';
 import 'package:tafur/src/utils/shared_pref.dart';
 import 'package:url_launcher/url_launcher.dart';
-
+import 'package:image/image.dart' as img_package;
 import '../../../enviroment/enviroment.dart';
 
 class ProfileController {
@@ -39,6 +40,7 @@ class ProfileController {
       String url = '${Enviroment.apiURL}actualiza-imagen/${user['user']['id']}';
       final image = await ImagePicker().pickImage(source: ImageSource.gallery);
       if (image == null) return;
+
       final imageTemp = File(image.path);
 
       this.image = imageTemp;
@@ -63,6 +65,18 @@ class ProfileController {
     } on PlatformException catch (e) {
       print('Failed to pick image: $e');
     }
+  }
+
+  Future<File> _resizeImage(File imageFile) async {
+    // Utiliza el paquete 'image' para redimensionar la imagen.
+    img_package.Image? originalImage =
+        img_package.decodeImage(await imageFile.readAsBytes());
+    img_package.Image resizedImage =
+        img_package.copyResize(originalImage!, width: 100, height: 100);
+
+    // Guarda la imagen redimensionada en el archivo y devuelve el archivo.
+    return File(imageFile.path)
+      ..writeAsBytesSync(img_package.encodeJpg(resizedImage));
   }
 
   Future setearData() async {
