@@ -1,10 +1,15 @@
 import 'dart:convert';
-
+import 'dart:io';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:tafur/src/utils/colors.dart';
 import 'package:tafur/src/utils/service.dart';
 import 'package:tafur/src/utils/shared_pref.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../../../enviroment/enviroment.dart';
 
 class ProfileController {
   BuildContext? context;
@@ -17,12 +22,36 @@ class ProfileController {
 
   Map<String, dynamic> user = {};
 
+  File? image;
+
   Future init(BuildContext context) async {
     this.context = context;
     sharedPref = SharedPref();
     loading();
     await setearData();
     cerrarModal();
+  }
+
+  Future<void> pickImage() async {
+    try {
+      Map<String, String> headers = {"Content-Type": "multipart/form-data"};
+
+      String url = '${Enviroment.apiURL}actualiza-imagen/${user['user']['id']}';
+      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (image == null) return;
+      final imageTemp = File(image.path);
+
+      this.image = imageTemp;
+      var request = http.MultipartRequest('POST', Uri.parse(url))
+        ..headers.addAll(headers)
+        ..files.add(await http.MultipartFile.fromPath('image', image!.path));
+
+      var response = await request.send();
+      print(response.statusCode);
+      //nameImage.text = image.name;
+    } on PlatformException catch (e) {
+      print('Failed to pick image: $e');
+    }
   }
 
   Future setearData() async {

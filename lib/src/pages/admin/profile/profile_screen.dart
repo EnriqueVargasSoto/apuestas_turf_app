@@ -43,24 +43,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 child: Stack(
                   children: <Widget>[
                     ClipRect(
-                      child: Image.asset(
-                        'assets/perfil.png',
-                        height: 130.0,
-                      ),
+                      child: con.image != null
+                          ? Image.file(con.image!)
+                          : Image.asset(
+                              'assets/perfil.png',
+                              height: 130.0,
+                            ),
                     ),
                     Positioned(
                         width: 45,
                         height: 45,
                         right: 0,
                         bottom: 0,
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: ColorsApp.background,
-                              borderRadius: BorderRadius.circular(50)),
-                          child: Icon(
-                            Icons.edit,
-                            color: ColorsApp.white,
-                            size: 21.0,
+                        child: GestureDetector(
+                          onTap: () async => await con.pickImage(),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: ColorsApp.background,
+                                borderRadius: BorderRadius.circular(50)),
+                            child: Icon(
+                              Icons.edit,
+                              color: ColorsApp.white,
+                              size: 21.0,
+                            ),
                           ),
                         ))
                   ],
