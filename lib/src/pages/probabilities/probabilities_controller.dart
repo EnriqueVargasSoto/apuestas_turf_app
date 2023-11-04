@@ -35,8 +35,8 @@ class ProbabilitiesController {
       'name': nameProbabilidad.text,
       'description': descripcion.text,
       'value': valor.text,
-      'max': apuestaMaxima.text,
-      'max_aux': apuestaMaxima.text,
+      //'max': '0.00', //apuestaMaxima.text,
+      //'max_aux': '0.00', //apuestaMaxima.text,
       'event_id': event['id'].toString()
     };
 
@@ -50,7 +50,8 @@ class ProbabilitiesController {
 
   Future getProbabilidades() async {
     probabilidades = [];
-    await Service.consulta('probabilities', 'get', null).then((value) {
+    await Service.consulta('probabilities?event_id=${event['id']}', 'get', null)
+        .then((value) {
       print(value.body);
       dynamic resp = jsonDecode(value.body);
       List<dynamic> list = resp['data'];
@@ -115,8 +116,8 @@ class ProbabilitiesController {
       'name': nameProbabilidad.text,
       'description': descripcion.text,
       'value': valor.text,
-      'max': apuestaMaxima.text,
-      'max_aux': apuestaMaxima.text,
+      //'max': '0.00', //apuestaMaxima.text,
+      //'max_aux': '0.00', //apuestaMaxima.text,
       'event_id': event['id'].toString()
     };
 

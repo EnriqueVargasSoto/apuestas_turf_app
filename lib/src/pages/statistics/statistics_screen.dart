@@ -69,11 +69,12 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                       MaterialButton(
                         color: ColorsApp.background,
                         onPressed: () async {
+                          Navigator.pop(context);
                           await con.saveEstadistica().then((value) async {
-                            Navigator.pop(context);
-                            con.loading();
-                            await con.getEstadisticas();
-                            con.cerrarModal();
+                            //Navigator.pop(context);
+                            //con.loading();
+
+                            //con.cerrarModal();
                             setState(() {});
                           });
                           /*await con.saveProbabilidad().then((value) {
@@ -148,13 +149,13 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                       MaterialButton(
                         color: ColorsApp.background,
                         onPressed: () async {
+                          Navigator.pop(context);
                           await con
                               .actualizaEstadistica(record)
                               .then((value) async {
-                            Navigator.pop(context);
-                            con.loading();
-                            await con.getEstadisticas();
-                            con.cerrarModal();
+                            //con.loading();
+                            //await con.getEstadisticas();
+                            //con.cerrarModal();
                             setState(() {});
                           });
                           /*await con.saveProbabilidad().then((value) {

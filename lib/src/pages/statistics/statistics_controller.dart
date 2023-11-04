@@ -67,25 +67,31 @@ class StatisticsController {
   }
 
   Future saveEstadistica() async {
+    loading();
     Map<String, String> body = {
       'probability_id': '${probability['id']}',
       'record': estadistica.text
     };
 
-    await Service.consulta('records', 'post', body).then((value) {
+    await Service.consulta('records', 'post', body).then((value) async {
       print(value.body);
+      await getEstadisticas();
+      cerrarModal();
     });
   }
 
   Future actualizaEstadistica(record) async {
+    loading();
     Map<String, String> body = {
       'probability_id': '${record['probability_id']}',
       'record': estadistica.text
     };
 
     await Service.consulta('records/${record['id']}', 'put', body)
-        .then((value) {
+        .then((value) async {
       print(value.body);
+      await getEstadisticas();
+      cerrarModal();
     });
   }
 

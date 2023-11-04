@@ -92,7 +92,7 @@ class _MainScreenState extends State<MainScreen> {
                             )
                       : Container(),
                   const SizedBox(
-                    width: 0.0,
+                    width: 20.0,
                   ),
                 ],
               ),

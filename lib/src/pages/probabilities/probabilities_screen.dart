@@ -54,7 +54,7 @@ class _ProbabilitiesScreenState extends State<ProbabilitiesScreen> {
                   ),
                   TextField(
                     controller: con.descripcion,
-                    maxLines: 2,
+                    maxLines: 1,
                     decoration: InputDecoration(
                       hintText: 'Descripcion',
                       contentPadding:
@@ -99,7 +99,7 @@ class _ProbabilitiesScreenState extends State<ProbabilitiesScreen> {
                   SizedBox(
                     height: 20.0,
                   ),
-                  TextField(
+                  /*TextField(
                     controller: con.apuestaMaxima,
                     decoration: InputDecoration(
                       hintText: 'Apuesta maxima (0.000)',
@@ -121,7 +121,7 @@ class _ProbabilitiesScreenState extends State<ProbabilitiesScreen> {
                   ),
                   SizedBox(
                     height: 20.0,
-                  ),
+                  ),*/
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -245,7 +245,7 @@ class _ProbabilitiesScreenState extends State<ProbabilitiesScreen> {
                   SizedBox(
                     height: 20.0,
                   ),
-                  TextField(
+                  /*TextField(
                     controller: con.apuestaMaxima,
                     decoration: InputDecoration(
                       hintText: 'Apuesta maxima (0.000)',
@@ -267,7 +267,7 @@ class _ProbabilitiesScreenState extends State<ProbabilitiesScreen> {
                   ),
                   SizedBox(
                     height: 20.0,
-                  ),
+                  ),*/
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -401,9 +401,17 @@ class _ProbabilitiesScreenState extends State<ProbabilitiesScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                    '${con.probabilidades[i]['name']} ${con.probabilidades[i]['description'] != null ? '- ${con.probabilidades[i]['description']}' : ''}'),
-                Text('Cuota: ${con.probabilidades[i]['value']}'),
-                Text('Msx. apuesta: ${con.probabilidades[i]['max']}'),
+                  '${con.probabilidades[i]['name']} ${con.probabilidades[i]['description'] != null ? '- ${con.probabilidades[i]['description']}' : ''}',
+                  style: TextStyle(fontSize: 18.0),
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                Text(
+                  'Cuota: ${con.probabilidades[i]['value']}',
+                  style: TextStyle(fontSize: 16.0),
+                ),
+                //Text('Msx. apuesta: ${con.probabilidades[i]['max']}'),
               ],
             ),
             Row(

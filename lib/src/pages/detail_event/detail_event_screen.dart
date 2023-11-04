@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:tafur/src/enviroment/enviroment.dart';
 import 'package:tafur/src/pages/detail_event/detail_event_controller.dart';
 import 'package:tafur/src/utils/cart.dart';
@@ -164,8 +165,8 @@ class _DetailEventScreenState extends State<DetailEventScreen> {
     for (var i = 0; i < con.event['probabilities'].length; i++) {
       final temp = GestureDetector(
         onTap: () {
-          agregarEvento(con.event['probabilities'][i]);
-          selectProbability(i);
+          //agregarEvento(con.event['probabilities'][i]);
+          //selectProbability(i);
         },
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
@@ -188,6 +189,36 @@ class _DetailEventScreenState extends State<DetailEventScreen> {
                   Text('Msx. apuesta: ${con.event['probabilities'][i]['max']}'),
                 ],
               ),
+              SizedBox(
+                child: Row(
+                  children: [
+                    IconButton(
+                        onPressed: () {
+                          con.showEstadisticas(
+                              con.event['probabilities'][i]['records']);
+                        },
+                        icon: Icon(
+                          Icons.remove_red_eye,
+                          color: Colors.grey,
+                        )),
+                    IconButton(
+                        onPressed: () async {
+                          con.addBet(con.event['probabilities'][i]);
+                          setState(() {});
+                        },
+                        icon: con.eventSelect['probability'] ==
+                                con.event['probabilities'][i]
+                            ? Icon(
+                                Icons.check,
+                                color: Colors.green,
+                              )
+                            : Icon(
+                                Icons.add,
+                                color: Colors.blue,
+                              ))
+                  ],
+                ),
+              )
             ],
           ),
         ),

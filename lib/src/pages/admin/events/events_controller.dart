@@ -33,8 +33,13 @@ class EventsController {
 
   Future getEvents() async {
     await Service.consulta('events', 'get', null).then((value) {
+      print(value.body);
       dynamic resp = jsonDecode(value.body);
-      eventos = resp['data'];
+      print(resp['data'].length);
+      if (resp['data'].length > 0) {
+        eventos = resp['data'];
+      }
+
       print(eventos);
     });
   }

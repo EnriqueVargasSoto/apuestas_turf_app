@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:tafur/src/pages/client/apuesta/apuesta_controller.dart';
+import 'package:tafur/src/utils/cart.dart';
 import 'package:tafur/src/utils/colors.dart';
 
 class ApuestaScreen extends StatefulWidget {
@@ -43,6 +44,29 @@ class _ApuestaScreenState extends State<ApuestaScreen> {
         ),
         body: Column(
           children: [
+            Expanded(
+                child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 20.0),
+              child: ListView(
+                children: listBet(),
+              ),
+            )),
+            Container(
+              padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 30.0),
+              child: MaterialButton(
+                minWidth: size!.width * 1,
+                height: 45.0,
+                color: ColorsApp.background,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    side: BorderSide(color: ColorsApp.black, width: 1.0)),
+                onPressed: () => {}, //con.createUser(),
+                child: Text(
+                  'Crear Apuesta',
+                  style: TextStyle(color: ColorsApp.white, fontSize: 15.0),
+                ),
+              ),
+            )
             /*Container(
               padding: const EdgeInsets.symmetric(vertical: 20.0),
               alignment: Alignment.center,
@@ -78,5 +102,74 @@ class _ApuestaScreenState extends State<ApuestaScreen> {
         ),
       ),
     );
+  }
+
+  List<Widget> listBet() {
+    List<Widget> opt = [];
+    opt.add(SizedBox(height: 20.0));
+    for (var i = 0; i < CartEvents.bets.length; i++) {
+      final widgetTemp = Container(
+        padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+        margin: EdgeInsets.symmetric(vertical: 5.0),
+        decoration: BoxDecoration(
+            border: Border.all(width: 1.0, color: ColorsApp.background),
+            borderRadius: BorderRadius.circular(8.0),
+            color: ColorsApp.white),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  '${CartEvents.bets[i]['name']} ',
+                  style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                Text(
+                  'Probabilidad: ${CartEvents.bets[i]['probability']['name']}${CartEvents.bets[i]['probability']['description'] != null ? ' - ${CartEvents.bets[i]['probability']['description']}' : ''}',
+                  style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w500),
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                Text(
+                  'Cuota: ${CartEvents.bets[i]['probability']['value']}',
+                  style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w500),
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                Text(
+                  'Ganancia: ${CartEvents.bets[i]['ganancia']}',
+                  style: TextStyle(fontSize: 16.0),
+                ),
+              ],
+            ),
+            SizedBox(
+              child: Row(
+                children: [
+                  IconButton(
+                      onPressed: () {
+                        //con.showEstadisticas(
+                        //con.event['probabilities'][i]['records']);
+                      },
+                      icon: Icon(
+                        Icons.delete,
+                        color: Colors.red,
+                      )),
+                ],
+              ),
+            )
+          ],
+        ),
+      );
+
+      opt.add(widgetTemp);
+    }
+    opt.add(SizedBox(height: 10.0));
+    return opt;
   }
 }
