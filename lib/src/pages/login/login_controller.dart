@@ -45,7 +45,7 @@ class LoginController {
             cerrarModal();
             if (respuesta['user']['status'] == 'active') {
               sharedPref!.save('user', value.body);
-              modalMensaje('Bienvenido a \nAPUESTAS TURF)', value.statusCode);
+              modalMensaje('Bienvenido a \nAPUESTAS TURF', value.statusCode);
             } else {
               modalMensaje('Usuario inactivo.', 422);
             }

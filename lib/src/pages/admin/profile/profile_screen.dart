@@ -40,18 +40,36 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 20.0),
-                child: ClipRect(
-                  child: Image.asset(
-                    'assets/perfil.png',
-                    height: 130.0,
-                  ),
+                child: Stack(
+                  children: <Widget>[
+                    ClipRect(
+                      child: Image.asset(
+                        'assets/perfil.png',
+                        height: 130.0,
+                      ),
+                    ),
+                    Positioned(
+                        width: 45,
+                        height: 45,
+                        right: 0,
+                        bottom: 0,
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: ColorsApp.background,
+                              borderRadius: BorderRadius.circular(50)),
+                          child: Icon(
+                            Icons.edit,
+                            color: ColorsApp.white,
+                            size: 21.0,
+                          ),
+                        ))
+                  ],
                 ),
               ),
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 10.0),
                 child: TextField(
                   controller: con.names,
-                  readOnly: true,
                   decoration: InputDecoration(
                     hintText: 'Nombres',
                     label: Text('Nombres'),
@@ -74,7 +92,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 padding: EdgeInsets.symmetric(vertical: 10.0),
                 child: TextField(
                   controller: con.email,
-                  readOnly: true,
                   decoration: InputDecoration(
                     hintText: 'usuario',
                     label: Text('Usuario'),
@@ -201,14 +218,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 15.0),
                 child: MaterialButton(
-                  onPressed: () async => await con.updatePassword(),
+                  onPressed: () async => await con.updateNames(),
                   color: ColorsApp.background,
                   height: 45.0,
                   minWidth: size!.width * 1,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15)),
                   child: Text(
-                    'Actualizar Contraseña',
+                    'Guardar Cambios',
                     style: TextStyle(
                         fontSize: 18.0,
                         color: ColorsApp.white,

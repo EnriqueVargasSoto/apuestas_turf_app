@@ -143,6 +143,23 @@ class ProfileController {
             'actualiza-password/${user['user']['id']}', 'post', bodyPassword)
         .then((value) async {
       print(value.body);
+
+      await login();
+    });
+  }
+
+  Future updateNames() async {
+    Map<String, String> bodyNames = {
+      'names': names.text,
+      'email': "${email.text}@turf.com",
+      'clave': password.text,
+      'password': password.text
+    };
+
+    await Service.consulta('users/${user['user']['id']}', 'put', bodyNames)
+        .then((value) async {
+      print(value.body);
+
       await login();
     });
   }
