@@ -27,6 +27,7 @@ class DetailEvenController {
   void addBet(probability) {
     eventSelect = event;
     eventSelect['probability'] = probability;
+    eventSelect['ganancia'] = 0.00;
     print(eventSelect['probability']);
 
     int indexExistente =

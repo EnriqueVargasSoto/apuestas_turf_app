@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:tafur/src/enviroment/enviroment.dart';
 import 'package:tafur/src/pages/admin/profile/profile_controller.dart';
 import 'package:tafur/src/utils/colors.dart';
 
@@ -59,6 +60,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   'assets/perfil.png',
                                   height: 130.0,
                                 )
+
                               : Container(
                                   width: 130,
                                   height: 130,
@@ -69,6 +71,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               'https://apuestas-turf.com/storage/' +
                                                   con.user['user']['name']),
                                           fit: BoxFit.cover))),
+
+                              : Image.network(
+                                  '${Enviroment.imageURL}${con.user['user']['name']}',
+                                  height: 130.0,
+                                ),
+
                     ),
                     Positioned(
                         width: 45,

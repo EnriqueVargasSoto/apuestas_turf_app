@@ -42,8 +42,16 @@ class _MainScreenState extends State<MainScreen> {
                             },
                             icon: CartEvents.bets.length > 0
                                 ? Badge(
-                                    badgeContent:
-                                        Text('${CartEvents.bets.length}'),
+                                    badgeStyle: BadgeStyle(
+                                      badgeColor: ColorsApp.background,
+                                    ),
+                                    badgeContent: Text(
+                                      '${CartEvents.bets.length}',
+                                      style: TextStyle(
+                                          color: ColorsApp.white,
+                                          fontSize: 16.0,
+                                          fontWeight: FontWeight.bold),
+                                    ),
                                     child: Icon(
                                       Icons.shopping_basket_outlined,
                                       color: ColorsApp.black,
@@ -56,7 +64,14 @@ class _MainScreenState extends State<MainScreen> {
                         : Container()
                     : Container(),
 
-                title: Row(
+                title: Text(
+                  'Apuestas Turf',
+                  style: TextStyle(
+                      color: ColorsApp.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 19.0),
+                ),
+                /*Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image.asset(
@@ -71,7 +86,7 @@ class _MainScreenState extends State<MainScreen> {
                           fontSize: 20.0),
                     )
                   ],
-                ),
+                ),*/
                 centerTitle: true,
                 //leading: Image.assets('assets/')
                 actions: [
@@ -85,14 +100,14 @@ class _MainScreenState extends State<MainScreen> {
                                     'Saldo:',
                                     style: TextStyle(
                                         color: ColorsApp.black,
-                                        fontSize: 18.0,
+                                        fontSize: 16.0,
                                         fontWeight: FontWeight.bold),
                                   ),
                                   Text(
-                                    '${con.montoDouble.toStringAsFixed(3)}',
+                                    '₲${con.montoDouble.toStringAsFixed(3)}',
                                     style: TextStyle(
                                         color: ColorsApp.black,
-                                        fontSize: 18.0,
+                                        fontSize: 16.0,
                                         fontWeight: FontWeight.bold),
                                   )
                                 ],

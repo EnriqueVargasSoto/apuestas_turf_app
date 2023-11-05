@@ -132,10 +132,11 @@ class _EditUserScreenState extends State<EditUserScreen> {
         appBar: AppBar(
           backgroundColor: ColorsApp.white,
           title: Text(
-            'Editar Usuario',
+            'Saldo de Usuario',
             style:
                 TextStyle(color: ColorsApp.black, fontWeight: FontWeight.bold),
           ),
+          centerTitle: true,
           foregroundColor: ColorsApp.black,
         ),
         body: Column(

@@ -36,7 +36,7 @@ class EditUserController {
     this.context = context;
     this.user = user as Map<String, dynamic>;
     monto.text = montoDouble.toStringAsFixed(2);
-    montoTransferencia.text = '0.00';
+    //montoTransferencia.text = '0.00';
     //sharedPref = SharedPref();
     await setearData();
     await getTranferencias();

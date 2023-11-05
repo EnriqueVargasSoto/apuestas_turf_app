@@ -40,6 +40,14 @@ class _ApuestaScreenState extends State<ApuestaScreen> {
                 fontWeight: FontWeight.bold,
                 fontSize: 20.0),
           ),
+          leading: IconButton(
+              onPressed: () {
+                for (var i = 0; i < CartEvents.bets.length; i++) {
+                  CartEvents.bets[i]['ganancia'] = 0.00;
+                }
+                Navigator.pop(context);
+              },
+              icon: Icon(Icons.arrow_back)),
           centerTitle: true,
         ),
         body: Column(
@@ -51,6 +59,61 @@ class _ApuestaScreenState extends State<ApuestaScreen> {
                 children: listBet(),
               ),
             )),
+            Container(
+              padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 30.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(
+                    width: size!.width * 0.30,
+                    child: Column(
+                      children: [
+                        Text(
+                          'Monto a apostar',
+                          style: TextStyle(
+                              fontSize: 18.0, fontWeight: FontWeight.bold),
+                        ),
+                        TextField(
+                          controller: con.monto,
+                          textAlign: TextAlign.center,
+                          keyboardType: TextInputType.phone,
+                          decoration: InputDecoration(
+                            hintText: '0.000',
+                          ),
+                          onSubmitted: (value) {
+                            con.total = 0.00;
+                            for (var i = 0; i < CartEvents.bets.length; i++) {
+                              CartEvents.bets[i]['ganancia'] = double.parse(
+                                      CartEvents.bets[i]['probability']
+                                          ['value']) *
+                                  double.parse(con.monto.text);
+                              con.total += CartEvents.bets[i]['ganancia'];
+                            }
+                            setState(() {});
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                  Column(
+                    children: [
+                      Text(
+                        'Total a ganar',
+                        style: TextStyle(
+                            fontSize: 18.0, fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(
+                        height: 20.0,
+                      ),
+                      Text(
+                        '₲ ${con.total}',
+                        style: TextStyle(fontSize: 18.0),
+                      )
+                    ],
+                  )
+                ],
+              ),
+            ),
             Container(
               padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 30.0),
               child: MaterialButton(
