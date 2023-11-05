@@ -44,40 +44,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 child: Stack(
                   children: <Widget>[
                     ClipRect(
-                      child: con.image != null
-                          ? Column(children: [
-                              Container(
-                                  width: 130,
-                                  height: 130,
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      image: DecorationImage(
-                                          image: Image.file(con.image!).image,
-                                          fit: BoxFit.cover))),
-                            ])
-                          : con.user['user']['name'] == null
-                              ? Image.asset(
-                                  'assets/perfil.png',
-                                  height: 130.0,
-                                )
-
-                              : Container(
-                                  width: 130,
-                                  height: 130,
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      image: DecorationImage(
-                                          image: NetworkImage(
-                                              'https://apuestas-turf.com/storage/' +
-                                                  con.user['user']['name']),
-                                          fit: BoxFit.cover))),
-
-                              : Image.network(
-                                  '${Enviroment.imageURL}${con.user['user']['name']}',
-                                  height: 130.0,
-                                ),
-
-                    ),
+                        child: con.image != null
+                            ? Column(children: [
+                                Container(
+                                    width: 130,
+                                    height: 130,
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        image: DecorationImage(
+                                            image: Image.file(con.image!).image,
+                                            fit: BoxFit.cover))),
+                              ])
+                            : con.user['user']['name'] == null
+                                ? Image.asset(
+                                    'assets/perfil.png',
+                                    height: 130.0,
+                                  )
+                                : Container(
+                                    width: 130,
+                                    height: 130,
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        image: DecorationImage(
+                                            image: NetworkImage(
+                                                'https://apuestas-turf.com/storage/' +
+                                                    con.user['user']['name']),
+                                            fit: BoxFit.cover)))),
                     Positioned(
                         width: 45,
                         height: 45,
