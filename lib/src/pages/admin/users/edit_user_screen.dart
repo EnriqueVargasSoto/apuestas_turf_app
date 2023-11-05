@@ -94,8 +94,6 @@ class _EditUserScreenState extends State<EditUserScreen> {
                         color: ColorsApp.background,
                         onPressed: () async {
                           Navigator.pop(context);
-                          con.loading();
-
                           await con.saveTranferencia();
                           await con.getTranferencias();
                           con.cerrarModal();
@@ -243,7 +241,7 @@ class _EditUserScreenState extends State<EditUserScreen> {
                   Container(
                     width: 50.0,
                     alignment: Alignment.center,
-                    child: Text('N˚'),
+                    child: Text('Nombres'),
                   ),
                   Expanded(
                     child: Container(

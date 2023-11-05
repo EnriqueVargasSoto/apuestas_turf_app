@@ -157,23 +157,15 @@ class EditUserController {
         }
       }
       monto.text = montoDouble.toStringAsFixed(3);
-
       print(value.body);
     });
   }
 
   Future saveTranferencia() async {
-    if (montoDouble >= double.parse(montoTransferencia.text)) {
-      Map<String, String> body = {
-        'user_id': user['id'].toString(),
-        'type': tipo.dropDownValue!.value,
-        'amount': montoTransferencia.text
-      };
+    double amountToTransfer = double.tryParse(montoTransferencia.text) ?? 0.0;
 
-      await Service.consulta('transactions', 'post', body).then((value) {
-        print(value.body);
-      });
-    } else {
+    if (tipo.dropDownValue!.value == 'Retiro' &&
+        amountToTransfer > montoDouble) {
       showDialog(
           context: context!,
           builder: (BuildContext context) {
@@ -196,8 +188,8 @@ class EditUserController {
                     MaterialButton(
                       color: ColorsApp.background,
                       onPressed: () {
-                        Navigator.pop(context); // Cierra el diálogo de error
-
+                        Navigator.of(context).pop();
+                        // Cierra el diálogo de error
                         // Luego, realiza la carga o la acción que desees
                       },
                       child: Text(
@@ -210,7 +202,18 @@ class EditUserController {
               ),
             );
           });
+      return;
     }
+    loading();
+    Map<String, String> body = {
+      'user_id': user['id'].toString(),
+      'type': tipo.dropDownValue!.value,
+      'amount': montoTransferencia.text
+    };
+
+    await Service.consulta('transactions', 'post', body).then((value) {
+      print(value.body);
+    });
   }
 
   void loading() {
