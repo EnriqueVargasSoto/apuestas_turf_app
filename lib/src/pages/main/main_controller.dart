@@ -86,7 +86,8 @@ class MainController {
       transferencias = resp['data'];
       montoDouble = 0.0;
       for (var i = 0; i < transferencias.length; i++) {
-        if (transferencias[i]['type'] == 'Recarga') {
+        if (transferencias[i]['type'] == 'Recarga' ||
+            transferencias[i]['type'] == 'Ganancia') {
           montoDouble += double.parse(transferencias[i]['amount']);
         } else {
           montoDouble -= double.parse(transferencias[i]['amount']);

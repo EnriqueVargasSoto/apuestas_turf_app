@@ -397,22 +397,25 @@ class _ProbabilitiesScreenState extends State<ProbabilitiesScreen> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  '${con.probabilidades[i]['name']} ${con.probabilidades[i]['description'] != null ? '- ${con.probabilidades[i]['description']}' : ''}',
-                  style: TextStyle(fontSize: 18.0),
-                ),
-                SizedBox(
-                  height: 10.0,
-                ),
-                Text(
-                  'Cuota: ${con.probabilidades[i]['value']}',
-                  style: TextStyle(fontSize: 16.0),
-                ),
-                //Text('Msx. apuesta: ${con.probabilidades[i]['max']}'),
-              ],
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '${con.probabilidades[i]['name']} ${con.probabilidades[i]['description'] != null ? '- ${con.probabilidades[i]['description']}' : ''}',
+                    maxLines: 2,
+                    style: TextStyle(fontSize: 18.0),
+                  ),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  Text(
+                    'Cuota: ${con.probabilidades[i]['value']}',
+                    style: TextStyle(fontSize: 16.0),
+                  ),
+                  //Text('Msx. apuesta: ${con.probabilidades[i]['max']}'),
+                ],
+              ),
             ),
             Row(
               children: [

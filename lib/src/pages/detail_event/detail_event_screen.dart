@@ -186,14 +186,18 @@ class _DetailEventScreenState extends State<DetailEventScreen> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                      '${con.event['probabilities'][i]['name']} ${con.event['probabilities'][i]['description'] != null ? '- ${con.event['probabilities'][i]['description']}' : ''}'),
-                  Text('Cuota: ${con.event['probabilities'][i]['value']}'),
-                  Text('Msx. apuesta: ${con.event['probabilities'][i]['max']}'),
-                ],
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '${con.event['probabilities'][i]['name']} ${con.event['probabilities'][i]['description'] != null ? '- ${con.event['probabilities'][i]['description']}' : ''}',
+                      maxLines: 2,
+                    ),
+                    Text('Cuota: ${con.event['probabilities'][i]['value']}'),
+                    //Text('Msx. apuesta: ${con.event['probabilities'][i]['max']}'),
+                  ],
+                ),
               ),
               SizedBox(
                 child: Row(

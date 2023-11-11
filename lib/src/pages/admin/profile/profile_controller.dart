@@ -49,7 +49,6 @@ class ProfileController {
         ..files.add(await http.MultipartFile.fromPath('image', image.path));
 
       var response = await request.send();
-      print(response.statusCode);
 
       Map<String, String> body = {
         'email': user['user']['email'],

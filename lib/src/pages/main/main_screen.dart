@@ -38,7 +38,53 @@ class _MainScreenState extends State<MainScreen> {
                     ? con.user['user']['role_id'] != '1'
                         ? IconButton(
                             onPressed: () {
-                              Navigator.pushNamed(context, '/apuesta');
+                              if (CartEvents.bets.length > 0) {
+                                Navigator.pushNamed(context, '/apuesta');
+                              } else {
+                                showDialog(
+                                    context: context!,
+                                    builder: (context) {
+                                      return Dialog(
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(20.0),
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Text(
+                                                'El monto de ganacia debe ser mayor a 0!.',
+                                                style:
+                                                    TextStyle(fontSize: 18.0),
+                                              ),
+                                              SizedBox(
+                                                height: 20.0,
+                                              ),
+                                              MaterialButton(
+                                                //minWidth: size!.width * 1,
+                                                height: 45.0,
+                                                color: ColorsApp.background,
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10.0),
+                                                    side: BorderSide(
+                                                        color: ColorsApp.black,
+                                                        width: 1.0)),
+                                                onPressed: () async {
+                                                  Navigator.pop(context);
+                                                },
+                                                child: Text(
+                                                  'OK',
+                                                  style: TextStyle(
+                                                      color: ColorsApp.white,
+                                                      fontSize: 15.0),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    });
+                              }
                             },
                             icon: CartEvents.bets.length > 0
                                 ? Badge(

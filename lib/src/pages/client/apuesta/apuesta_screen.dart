@@ -82,13 +82,19 @@ class _ApuestaScreenState extends State<ApuestaScreen> {
                           ),
                           onSubmitted: (value) {
                             con.total = 0.00;
+                            //double multiplo = 1.00;
                             for (var i = 0; i < CartEvents.bets.length; i++) {
-                              CartEvents.bets[i]['ganancia'] = double.parse(
+                              /*CartEvents.bets[i]['ganancia'] = double.parse(
                                       CartEvents.bets[i]['probability']
                                           ['value']) *
-                                  double.parse(con.monto.text);
-                              con.total += CartEvents.bets[i]['ganancia'];
+                                  double.parse(con.monto.text);*/
+                              con.multiplicador = double.parse(CartEvents
+                                      .bets[i]['probability']['value']) *
+                                  con.multiplicador;
+                              //con.total += CartEvents.bets[i]['ganancia'];
                             }
+                            con.total = double.parse(con.monto.text) *
+                                con.multiplicador;
                             setState(() {});
                           },
                         ),
@@ -123,7 +129,7 @@ class _ApuestaScreenState extends State<ApuestaScreen> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),
                     side: BorderSide(color: ColorsApp.black, width: 1.0)),
-                onPressed: () => {}, //con.createUser(),
+                onPressed: () async => con.saveBet(),
                 child: Text(
                   'Crear Apuesta',
                   style: TextStyle(color: ColorsApp.white, fontSize: 15.0),
@@ -181,35 +187,41 @@ class _ApuestaScreenState extends State<ApuestaScreen> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  '${CartEvents.bets[i]['name']} ',
-                  style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
-                ),
-                SizedBox(
-                  height: 10.0,
-                ),
-                Text(
-                  'Probabilidad: ${CartEvents.bets[i]['probability']['name']}${CartEvents.bets[i]['probability']['description'] != null ? ' - ${CartEvents.bets[i]['probability']['description']}' : ''}',
-                  style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w500),
-                ),
-                SizedBox(
-                  height: 10.0,
-                ),
-                Text(
-                  'Cuota: ${CartEvents.bets[i]['probability']['value']}',
-                  style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w500),
-                ),
-                SizedBox(
-                  height: 10.0,
-                ),
-                Text(
-                  'Ganancia: ${CartEvents.bets[i]['ganancia']}',
-                  style: TextStyle(fontSize: 16.0),
-                ),
-              ],
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '${CartEvents.bets[i]['name']} ',
+                    style:
+                        TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  Text(
+                    'Probabilidad: ${CartEvents.bets[i]['probability']['name']}${CartEvents.bets[i]['probability']['description'] != null ? ' - ${CartEvents.bets[i]['probability']['description']}' : ''}',
+                    maxLines: 2,
+                    style:
+                        TextStyle(fontSize: 18.0, fontWeight: FontWeight.w500),
+                  ),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  Text(
+                    'Cuota: ${CartEvents.bets[i]['probability']['value']}',
+                    style:
+                        TextStyle(fontSize: 18.0, fontWeight: FontWeight.w500),
+                  ),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  /*Text(
+                    'Ganancia: ${CartEvents.bets[i]['ganancia']}',
+                    style: TextStyle(fontSize: 16.0),
+                  ),*/
+                ],
+              ),
             ),
             SizedBox(
               child: Row(
@@ -218,6 +230,76 @@ class _ApuestaScreenState extends State<ApuestaScreen> {
                       onPressed: () {
                         //con.showEstadisticas(
                         //con.event['probabilities'][i]['records']);
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return Dialog(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(20.0),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(
+                                        'Desea quitar este evento de su apuesta?.',
+                                        style: TextStyle(fontSize: 18.0),
+                                      ),
+                                      SizedBox(
+                                        height: 20.0,
+                                      ),
+                                      MaterialButton(
+                                        //minWidth: size!.width * 1,
+                                        height: 45.0,
+                                        color: ColorsApp.background,
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                            side: BorderSide(
+                                                color: ColorsApp.black,
+                                                width: 1.0)),
+                                        onPressed: () async {
+                                          CartEvents.bets
+                                              .remove(CartEvents.bets[i]);
+                                          Navigator.pop(context);
+                                          if (CartEvents.bets.length == 0) {
+                                            Navigator.pushNamedAndRemoveUntil(
+                                                context,
+                                                '/main',
+                                                (route) => false);
+                                          }
+                                          con.total = 0.00;
+                                          con.multiplicador = 1;
+                                          //double multiplo = 1.00;
+                                          for (var i = 0;
+                                              i < CartEvents.bets.length;
+                                              i++) {
+                                            /*CartEvents.bets[i]['ganancia'] = double.parse(
+                                      CartEvents.bets[i]['probability']
+                                          ['value']) *
+                                  double.parse(con.monto.text);*/
+                                            con.multiplicador = double.parse(
+                                                    CartEvents.bets[i]
+                                                            ['probability']
+                                                        ['value']) *
+                                                con.multiplicador;
+                                            //con.total += CartEvents.bets[i]['ganancia'];
+                                          }
+                                          con.total =
+                                              double.parse(con.monto.text) *
+                                                  con.multiplicador;
+                                          setState(() {});
+                                        },
+                                        child: Text(
+                                          'OK',
+                                          style: TextStyle(
+                                              color: ColorsApp.white,
+                                              fontSize: 15.0),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            });
                       },
                       icon: Icon(
                         Icons.delete,
