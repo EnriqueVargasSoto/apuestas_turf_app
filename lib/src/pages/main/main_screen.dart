@@ -42,7 +42,7 @@ class _MainScreenState extends State<MainScreen> {
                                 Navigator.pushNamed(context, '/apuesta');
                               } else {
                                 showDialog(
-                                    context: context!,
+                                    context: context,
                                     builder: (context) {
                                       return Dialog(
                                         child: Padding(
