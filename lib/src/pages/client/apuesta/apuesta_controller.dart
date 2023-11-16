@@ -17,10 +17,15 @@ class ApuestaController {
   double multiplicador = 1.0;
   Map<String, dynamic> user = {};
 
+  List<dynamic> transferencias = [];
+  double montoDouble = 0.000;
+
   Future init(BuildContext context) async {
     this.context = context;
     sharedPref = SharedPref();
+
     await setData();
+    await getTranferencias();
   }
 
   Future setData() async {
@@ -28,54 +33,117 @@ class ApuestaController {
     user = jsonDecode(resp);
   }
 
+  Future getTranferencias() async {
+    await Service.consulta(
+            'transaction-user/${user['user']['id']}', 'get', null)
+        .then((value) {
+      dynamic resp = jsonDecode(value.body);
+      transferencias = resp['data'];
+      montoDouble = 0.0;
+      for (var i = 0; i < transferencias.length; i++) {
+        if (transferencias[i]['type'] == 'Recarga' ||
+            transferencias[i]['type'] == 'Ganancia') {
+          montoDouble += double.parse(transferencias[i]['amount']);
+        } else {
+          montoDouble -= double.parse(transferencias[i]['amount']);
+        }
+      }
+      //monto.text = montoDouble.toStringAsFixed(3);
+
+      //print(value.body);
+    });
+  }
+
   Future saveBet() async {
     loading();
+    if (montoDouble >= double.parse(monto.text)) {
+      if (total > 0) {
+        Map<String, String> body = {
+          'user_id': user['user']['id'].toString(),
+          'result': 'pendiente',
+          'amount_total_bet': monto.text,
+          'quota': multiplicador.toStringAsFixed(2),
+          'amount_total_result': total.toInt().toString()
+        };
 
-    if (total > 0) {
-      Map<String, String> body = {
-        'user_id': user['user']['id'].toString(),
-        'result': 'pendiente',
-        'amount_total_bet': monto.text,
-        'quota': multiplicador.toStringAsFixed(2),
-        'amount_total_result': total.toInt().toString()
-      };
+        await Service.consulta('bets', 'post', body).then((value) async {
+          dynamic bet = jsonDecode(value.body);
 
-      await Service.consulta('bets', 'post', body).then((value) async {
-        dynamic bet = jsonDecode(value.body);
-
-        for (var i = 0; i < CartEvents.bets.length; i++) {
-          //print(CartEvents.bets[i]['probability']);
-          Map<String, String> detailBody = {
-            'bet_id': bet['data']['id'].toString(),
-            'event_id': CartEvents.bets[i]['id'].toString(),
-            'probability_id':
-                CartEvents.bets[i]['probability']['id'].toString(),
-            'amount_bet': '0.0',
-            'quota': CartEvents.bets[i]['probability']['value'].toString(),
-            'amount_result': '0.0',
-            'result': 'pendiente'
-          };
-
-          await Service.consulta('bet-event', 'post', detailBody)
-              .then((value) async {
-            Map<String, String> bodyApuesta = {
-              'user_id': user['user']['id'].toString(),
-              'type': 'Apuesta',
-              'amount': monto.text
+          for (var i = 0; i < CartEvents.bets.length; i++) {
+            //print(CartEvents.bets[i]['probability']);
+            Map<String, String> detailBody = {
+              'bet_id': bet['data']['id'].toString(),
+              'event_id': CartEvents.bets[i]['id'].toString(),
+              'probability_id':
+                  CartEvents.bets[i]['probability']['id'].toString(),
+              'amount_bet': '0.0',
+              'quota': CartEvents.bets[i]['probability']['value'].toString(),
+              'amount_result': '0.0',
+              'result': 'pendiente'
             };
 
-            await Service.consulta('transactions', 'post', bodyApuesta)
-                .then((value) {
-              print(value.body);
-              CartEvents.bets = [];
-              cerrarModal();
-              Navigator.pushNamedAndRemoveUntil(
-                  context!, '/main', (route) => false);
+            await Service.consulta('bet-event', 'post', detailBody)
+                .then((value) async {
+              Map<String, String> bodyApuesta = {
+                'user_id': user['user']['id'].toString(),
+                'type': 'Apuesta',
+                'amount': monto.text
+              };
+
+              await Service.consulta('transactions', 'post', bodyApuesta)
+                  .then((value) {
+                print(value.body);
+                CartEvents.bets = [];
+                cerrarModal();
+                Navigator.pushNamedAndRemoveUntil(
+                    context!, '/main', (route) => false);
+              });
             });
-          });
-        }
-      });
+          }
+        });
+      } else {
+        cerrarModal();
+        showDialog(
+            context: context!,
+            builder: (context) {
+              return Dialog(
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'El monto de ganacia debe ser mayor a 0!.',
+                        style: TextStyle(fontSize: 18.0),
+                      ),
+                      SizedBox(
+                        height: 20.0,
+                      ),
+                      MaterialButton(
+                        //minWidth: size!.width * 1,
+                        height: 45.0,
+                        color: ColorsApp.background,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            side:
+                                BorderSide(color: ColorsApp.black, width: 1.0)),
+                        onPressed: () async {
+                          Navigator.pop(context);
+                        },
+                        child: Text(
+                          'OK',
+                          style:
+                              TextStyle(color: ColorsApp.white, fontSize: 15.0),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            });
+      }
     } else {
+      cerrarModal();
       showDialog(
           context: context!,
           builder: (context) {
@@ -86,7 +154,7 @@ class ApuestaController {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      'El monto de ganacia debe ser mayor a 0!.',
+                      'Saldo insuficiente!.',
                       style: TextStyle(fontSize: 18.0),
                     ),
                     SizedBox(

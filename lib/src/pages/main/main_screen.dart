@@ -51,7 +51,7 @@ class _MainScreenState extends State<MainScreen> {
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
                                               Text(
-                                                'El monto de ganacia debe ser mayor a 0!.',
+                                                'NO TENGO APUESTAS AGREGADAS!.',
                                                 style:
                                                     TextStyle(fontSize: 18.0),
                                               ),
