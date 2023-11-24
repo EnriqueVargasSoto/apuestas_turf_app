@@ -104,19 +104,35 @@ class UsersController {
         context: context!,
         builder: (BuildContext context) {
           return AlertDialog(
-            content: Text(
-              mensaje,
-              maxLines: 2,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  color: ColorsApp.black,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700),
+            content: Container(
+              height: 110,
+              child: Column(
+                children: [
+                  Icon(
+                    Icons.verified_user_rounded,
+                    color: ColorsApp.background,
+                    size: 50.0,
+                  ),
+                  const SizedBox(
+                    height: 15.0,
+                  ),
+                  Text(
+                    mensaje,
+                    maxLines: 2,
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                        color: ColorsApp.black,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                        fontFamily: 'Roboto'),
+                  ),
+                ],
+              ),
             ),
             actions: [
               MaterialButton(
                   onPressed: () {
-                    //cerrarModal();
+                    cerrarModal();
                   },
                   color: ColorsApp.background,
                   child: Text(

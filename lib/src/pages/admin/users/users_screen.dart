@@ -189,6 +189,21 @@ class _UsersScreenState extends State<UsersScreen> {
                         Icons.delete,
                         color: ColorsApp.background,
                       )),
+                  IconButton(
+                      onPressed: () async {
+                        con.modalMensaje("Usuario: " +
+                            con.resultado[i]['email'].substring(
+                                0, con.resultado[i]['email'].indexOf('@')) +
+                            "\nContraseña: " +
+                            con.resultado[i]['clave']);
+                        //await con.eliminarUsuario(con.resultado[i]);
+                        //await con.listarUsuarios();
+                        //setState(() {});
+                      },
+                      icon: Icon(
+                        Icons.info,
+                        color: ColorsApp.background,
+                      )),
                 ],
               ),
             )
