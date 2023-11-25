@@ -112,11 +112,11 @@ class ApuestaController {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text(
+                      const Text(
                         'El monto de ganacia debe ser mayor a 0!.',
                         style: TextStyle(fontSize: 18.0),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20.0,
                       ),
                       MaterialButton(
@@ -153,11 +153,11 @@ class ApuestaController {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(
+                    const Text(
                       'Saldo insuficiente!.',
                       style: TextStyle(fontSize: 18.0),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20.0,
                     ),
                     MaterialButton(
