@@ -151,7 +151,8 @@ class EditUserController {
       montoDouble = 0.0;
       for (var i = 0; i < transferencias.length; i++) {
         if (transferencias[i]['type'] == 'Recarga' ||
-            transferencias[i]['type'] == 'Ganancia') {
+            transferencias[i]['type'] == 'Ganancia' ||
+            transferencias[i]['type'] == 'Reintegro') {
           montoDouble += double.parse(transferencias[i]['amount']);
         } else {
           montoDouble -= double.parse(transferencias[i]['amount']);

@@ -72,7 +72,7 @@ class _EventsScreenState extends State<EventsScreen> {
                 alignment: Alignment.topRight,
                 children: [
                   Container(
-                    margin: EdgeInsets.symmetric(vertical: 10.0),
+                    margin: const EdgeInsets.symmetric(vertical: 10.0),
                     width: size!.width * 1.0,
                     height: 150.0,
                     decoration: BoxDecoration(
@@ -101,27 +101,35 @@ class _EventsScreenState extends State<EventsScreen> {
                         ),
                       ),
                       itemBuilder: (context) => [
-                        PopupMenuItem(
+                        const PopupMenuItem(
                           child: Text('Probabilidades'),
                           value: 'Probabilidad',
                         ),
+                        const PopupMenuItem(
+                          child: Text('Probabilidades Ganadoras'),
+                          value: 'Ganadas',
+                        ),
                         PopupMenuItem(
-                          child: Text('Activar'),
+                          child: const Text('Activar'),
                           value: 'Activar',
                           enabled: e['tag'] == 'Pendiente' ? true : false,
                         ),
-                        PopupMenuItem(
+                        const PopupMenuItem(
                           child: Text('Posponer'),
                           value: 'Posponer',
                         ),
 
-                        PopupMenuItem(
+                        /*const PopupMenuItem(
                           child: Text('Terminar'),
                           value: 'Terminar',
                         ),
-                        PopupMenuItem(
+                        const PopupMenuItem(
                           child: Text('Anular'),
                           value: 'Anular',
+                        ),*/
+                        const PopupMenuItem(
+                          child: Text('Cancelar'),
+                          value: 'Cancelar',
                         ),
                         //PopupMenuItem(child: Text('Editar')),
                       ],
@@ -129,6 +137,10 @@ class _EventsScreenState extends State<EventsScreen> {
                         switch (value) {
                           case 'Probabilidad':
                             con.probabilities(e);
+                            break;
+
+                          case 'Ganadas':
+                            con.ganadas(e);
                             break;
 
                           case 'Activar':
@@ -139,13 +151,18 @@ class _EventsScreenState extends State<EventsScreen> {
                             await con.posponer(e);
                             break;
 
-                          case 'Terminar':
+                          /*case 'Terminar':
                             print('Terminar');
-                            break;
+                            break;*/
 
-                          case 'Anular':
+                          /*case 'Anular':
                             await con.anular(e);
                             setState(() {});
+                            break;*/
+
+                          case 'Cancelar':
+                            await con.cancelar(e);
+                            //setState(() {});
                             break;
 
                           default:
@@ -158,51 +175,6 @@ class _EventsScreenState extends State<EventsScreen> {
             }).toList(),
           ),
         ))
-        /*Expanded(
-            child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: ListView(
-            children: con.eventos.map((e) {
-              return Stack(
-                alignment: Alignment.topRight,
-                children: [
-                  Container(
-                    width: size!.width * 1.0,
-                    height: 150.0,
-                    decoration: BoxDecoration(
-                        image: const DecorationImage(
-                            image: NetworkImage(
-                                'https://depor.com/resizer/bp0-3vhUuw12xTWyX7WaOjCDXU4=/580x330/smart/filters:format(jpeg):quality(75)/cloudfront-us-east-1.images.arcpublishing.com/elcomercio/YRFBTBFFD5GCFK3TEHAEOUR5UQ.jpg'),
-                            fit: BoxFit.fitWidth),
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(width: 1.0, color: ColorsApp.black)),
-                  ),
-                  PopupMenuButton(
-                      color: ColorsApp.white,
-                      icon: Container(
-                        height: 40.0,
-                        width: 40.0,
-                        decoration: BoxDecoration(
-                            color: ColorsApp.white,
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                                width: 1.0, color: ColorsApp.background)),
-                        child: Icon(
-                          Icons.more_vert_outlined,
-                          color: ColorsApp.background,
-                        ),
-                      ),
-                      itemBuilder: (context) => [
-                            PopupMenuItem(child: Text('Editar')),
-                            PopupMenuItem(child: Text('Probabilidades')),
-                            PopupMenuItem(child: Text('Editar')),
-                            PopupMenuItem(child: Text('Editar')),
-                          ])
-                ],
-              );
-            }).toList(),
-          ),
-        ))*/
       ],
     );
   }

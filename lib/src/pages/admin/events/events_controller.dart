@@ -66,14 +66,12 @@ class EventsController {
   }
 
   Future anular(event) async {
-    loading();
-
     Map<String, String> bodyPosponer = {
       'type': event['type'],
       'name': event['name'],
       'date': event['date'],
       'tag': 'Anulado',
-      'status': event['status'],
+      'status': 'inactive',
       '_method': 'PUT',
     };
 
@@ -84,6 +82,88 @@ class EventsController {
       cerrarModal();
       Navigator.pushNamedAndRemoveUntil(context!, '/main', (route) => false);
     });
+  }
+
+  Future cancelar(event) async {
+    showDialog(
+        barrierDismissible: false,
+        context: context!,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Text(
+              'Esta seguro que desea cancelar este evento?',
+              maxLines: 2,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  color: ColorsApp.black,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700),
+            ),
+            actions: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  MaterialButton(
+                      onPressed: () async {
+                        cerrarModal();
+                        //if (statusCode == 200) {
+                        loading();
+                        Map<String, String> body = {
+                          'id': event['id'].toString()
+                        };
+
+                        await Service.consulta('cancelar-evento', 'post', body)
+                            .then((value) async {
+                          print(value.statusCode);
+                          Map<String, String> bodyPosponer = {
+                            'type': event['type'],
+                            'name': event['name'],
+                            'date': event['date'],
+                            'tag': 'Anulado',
+                            'status': event['status'],
+                            '_method': 'PUT',
+                          };
+
+                          await Service.consulta(
+                                  'events/${event['id']}', 'post', bodyPosponer)
+                              .then((value) {
+                            print(value.body);
+
+                            cerrarModal();
+                            Navigator.pushNamedAndRemoveUntil(
+                                context!, '/main', (route) => false);
+                          });
+                        });
+                      },
+                      color: ColorsApp.background,
+                      child: Text(
+                        'Si',
+                        style: TextStyle(
+                            color: ColorsApp.white,
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold),
+                      )),
+                  SizedBox(
+                    width: 15.0,
+                  ),
+                  MaterialButton(
+                      onPressed: () async {
+                        cerrarModal();
+                      },
+                      color: ColorsApp.background,
+                      child: Text(
+                        'No',
+                        style: TextStyle(
+                            color: ColorsApp.white,
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold),
+                      ))
+                ],
+              )
+            ],
+            actionsAlignment: MainAxisAlignment.center,
+          );
+        });
   }
 
   Future posponer(event) async {
@@ -128,6 +208,10 @@ class EventsController {
     Navigator.pushNamed(context!, '/probabilities', arguments: event);
   }
 
+  void ganadas(event) {
+    Navigator.pushNamed(context!, '/ganadas', arguments: event);
+  }
+
   void loading() {
     showDialog(
         barrierDismissible: false,
@@ -161,5 +245,43 @@ class EventsController {
 
   void cerrarModal() {
     Navigator.pop(context!);
+  }
+
+  void modalMensaje(String mensaje, int statusCode) {
+    showDialog(
+        barrierDismissible: false,
+        context: context!,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Text(
+              mensaje,
+              maxLines: 2,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  color: ColorsApp.black,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700),
+            ),
+            actions: [
+              MaterialButton(
+                  onPressed: () {
+                    cerrarModal();
+                    //if (statusCode == 200) {
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, '/main', (route) => false);
+                    //}
+                  },
+                  color: ColorsApp.background,
+                  child: Text(
+                    'OK',
+                    style: TextStyle(
+                        color: ColorsApp.white,
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold),
+                  ))
+            ],
+            actionsAlignment: MainAxisAlignment.center,
+          );
+        });
   }
 }

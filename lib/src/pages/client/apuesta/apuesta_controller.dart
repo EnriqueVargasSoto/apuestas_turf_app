@@ -13,7 +13,7 @@ class ApuestaController {
 
   TextEditingController monto = TextEditingController();
 
-  double total = 0.00;
+  int total = 0;
   double multiplicador = 1.0;
   Map<String, dynamic> user = {};
 
@@ -42,7 +42,8 @@ class ApuestaController {
       montoDouble = 0.0;
       for (var i = 0; i < transferencias.length; i++) {
         if (transferencias[i]['type'] == 'Recarga' ||
-            transferencias[i]['type'] == 'Ganancia') {
+            transferencias[i]['type'] == 'Ganancia' ||
+            transferencias[i]['type'] == 'Reintegro') {
           montoDouble += double.parse(transferencias[i]['amount']);
         } else {
           montoDouble -= double.parse(transferencias[i]['amount']);
@@ -62,7 +63,7 @@ class ApuestaController {
           'user_id': user['user']['id'].toString(),
           'result': 'pendiente',
           'amount_total_bet': monto.text,
-          'quota': multiplicador.toStringAsFixed(2),
+          'quota': multiplicador.toInt().toString(),
           'amount_total_result': total.toInt().toString()
         };
 
@@ -94,6 +95,7 @@ class ApuestaController {
                   .then((value) {
                 print(value.body);
                 CartEvents.bets = [];
+
                 cerrarModal();
                 Navigator.pushNamedAndRemoveUntil(
                     context!, '/main', (route) => false);

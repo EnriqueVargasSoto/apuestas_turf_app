@@ -81,7 +81,8 @@ class _ApuestaScreenState extends State<ApuestaScreen> {
                             hintText: '0.000',
                           ),
                           onSubmitted: (value) {
-                            con.total = 0.00;
+                            con.total = 0;
+                            con.multiplicador = 1;
                             //double multiplo = 1.00;
                             for (var i = 0; i < CartEvents.bets.length; i++) {
                               /*CartEvents.bets[i]['ganancia'] = double.parse(
@@ -93,8 +94,9 @@ class _ApuestaScreenState extends State<ApuestaScreen> {
                                   con.multiplicador;
                               //con.total += CartEvents.bets[i]['ganancia'];
                             }
-                            con.total = double.parse(con.monto.text) *
-                                con.multiplicador;
+                            con.total = (double.parse(con.monto.text) *
+                                    con.multiplicador)
+                                .toInt();
                             setState(() {});
                           },
                         ),
@@ -266,7 +268,7 @@ class _ApuestaScreenState extends State<ApuestaScreen> {
                                                 '/main',
                                                 (route) => false);
                                           }
-                                          con.total = 0.00;
+                                          con.total = 0;
                                           con.multiplicador = 1;
                                           //double multiplo = 1.00;
                                           for (var i = 0;
@@ -284,8 +286,9 @@ class _ApuestaScreenState extends State<ApuestaScreen> {
                                             //con.total += CartEvents.bets[i]['ganancia'];
                                           }
                                           con.total =
-                                              double.parse(con.monto.text) *
-                                                  con.multiplicador;
+                                              (double.parse(con.monto.text) *
+                                                      con.multiplicador)
+                                                  .toInt();
                                           setState(() {});
                                         },
                                         child: Text(

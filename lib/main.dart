@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tafur/src/pages/admin/events/create_event_screen.dart';
 import 'package:tafur/src/pages/admin/events/edit_event_screen.dart';
+import 'package:tafur/src/pages/admin/events/ganadas_screen.dart';
 import 'package:tafur/src/pages/admin/users/cerate_user_screen.dart';
 import 'package:tafur/src/pages/admin/users/edit_user_screen.dart';
 import 'package:tafur/src/pages/client/apuesta/apuesta_screen.dart';
@@ -48,6 +49,7 @@ class MyApp extends StatelessWidget {
         '/probabilities': (context) => const ProbabilitiesScreen(),
         '/detail_event': (context) => const DetailEventScreen(),
         '/apuesta': (context) => const ApuestaScreen(),
+        '/ganadas': (context) => const GanadasScreen()
       },
     );
   }
