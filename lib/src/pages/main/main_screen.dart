@@ -150,7 +150,7 @@ class _MainScreenState extends State<MainScreen> {
                                         fontWeight: FontWeight.bold),
                                   ),
                                   Text(
-                                    '₲${con.montoDouble.toStringAsFixed(3)}',
+                                    '₲${con.montoDouble.toInt()}',
                                     style: TextStyle(
                                         color: ColorsApp.black,
                                         fontSize: 16.0,

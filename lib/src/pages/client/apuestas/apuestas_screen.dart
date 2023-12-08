@@ -102,7 +102,7 @@ class _ApuestasScreenState extends State<ApuestasScreen> {
                         TextStyle(fontSize: 18.0, fontWeight: FontWeight.w500),
                   ),
                   Text(
-                    'Estado: ${con.bets[i]['result']}',
+                    'Estado: ${con.bets[i]['result'].toString().toUpperCase()}',
                     style:
                         TextStyle(fontSize: 18.0, fontWeight: FontWeight.w500),
                   ),

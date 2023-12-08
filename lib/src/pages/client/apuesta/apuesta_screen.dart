@@ -131,7 +131,14 @@ class _ApuestaScreenState extends State<ApuestaScreen> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),
                     side: BorderSide(color: ColorsApp.black, width: 1.0)),
-                onPressed: () async => con.saveBet(),
+                onPressed: () async {
+                  if (con.total > 30000000) {
+                    await con.saveBet();
+                  } else {
+                    con.modalMensaje(
+                        'El límite de ganancias es de G 30.000.000', 500);
+                  }
+                },
                 child: Text(
                   'Crear Apuesta',
                   style: TextStyle(color: ColorsApp.white, fontSize: 15.0),

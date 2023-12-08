@@ -55,11 +55,28 @@ class _HomeScreenState extends State<HomeScreen> {
 
   List<Widget> listEventos() {
     List<Widget> opt = [];
-
+    print(con.eventos[0]['date']);
     for (var i = 0; i < con.eventos.length; i++) {
       final temp = GestureDetector(
         onTap: () {
-          con.detailEvent(con.eventos[i]);
+          DateTime horaActual = DateTime.now();
+          print(horaActual);
+          DateTime horaEvento = DateTime.parse(con.eventos[i]['date']);
+          print(horaEvento);
+          Duration diferencial = horaEvento.difference(horaActual);
+          print(diferencial);
+
+          if (diferencial.inMinutes > 10) {
+            print('es mayor a 10 min');
+            con.detailEvent(con.eventos[i]);
+          } else {
+            print('es menor a 10 min');
+            con.modalMensaje(
+                'El evento esta bloqueado por que esta a punto de empezar o ya empezó!',
+                500);
+            //con.detailEvent(con.eventos[i]);
+          }
+
           /*final result = Navigator.pushNamed(context, '/detail_event',
               arguments: con.eventos[i]);
           if (result != null) {

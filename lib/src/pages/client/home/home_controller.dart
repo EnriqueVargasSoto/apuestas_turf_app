@@ -19,9 +19,9 @@ class HomeController {
 
   Future getEventos() async {
     await Service.consulta('eventos-activos', 'get', null).then((value) {
-      print(value.body);
+      //print(value.body);
       eventos = jsonDecode(value.body);
-      print(eventos);
+      //print(eventos);
     });
   }
 
@@ -62,5 +62,43 @@ class HomeController {
 
   void cerrarModal() {
     Navigator.pop(context!);
+  }
+
+  void modalMensaje(String mensaje, int statusCode) {
+    showDialog(
+        barrierDismissible: false,
+        context: context!,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Text(
+              mensaje,
+              maxLines: 2,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  color: ColorsApp.black,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700),
+            ),
+            actions: [
+              MaterialButton(
+                  onPressed: () {
+                    cerrarModal();
+                    if (statusCode == 200) {
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, '/main', (route) => false);
+                    }
+                  },
+                  color: ColorsApp.background,
+                  child: Text(
+                    'OK',
+                    style: TextStyle(
+                        color: ColorsApp.white,
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold),
+                  ))
+            ],
+            actionsAlignment: MainAxisAlignment.center,
+          );
+        });
   }
 }
