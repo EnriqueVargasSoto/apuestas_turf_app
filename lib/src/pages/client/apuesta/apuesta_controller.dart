@@ -100,8 +100,9 @@ class ApuestaController {
             CartEvents.bets = [];
 
             cerrarModal();
-            Navigator.pushNamedAndRemoveUntil(
-                context!, '/main', (route) => false);
+            modalMensaje('Apuesta creada con éxito!', 200);
+            /*Navigator.pushNamedAndRemoveUntil(
+                context!, '/main', (route) => false);*/
           });
         });
       } else {
@@ -228,7 +229,8 @@ class ApuestaController {
         context: context!,
         builder: (BuildContext context) {
           return AlertDialog(
-            content: Row(
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Icon(
                   Icons.warning_rounded,

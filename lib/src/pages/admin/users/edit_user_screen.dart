@@ -54,7 +54,7 @@ class _EditUserScreenState extends State<EditUserScreen> {
                   TextField(
                     controller: con.montoTransferencia,
                     decoration: InputDecoration(
-                      hintText: '0.00',
+                      hintText: '0',
                       contentPadding:
                           EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
                       enabledBorder: OutlineInputBorder(

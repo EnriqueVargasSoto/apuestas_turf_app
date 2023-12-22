@@ -92,6 +92,8 @@ class _ApuestaScreenState extends State<ApuestaScreen> {
                               con.multiplicador = double.parse(CartEvents
                                       .bets[i]['probability']['value']) *
                                   con.multiplicador;
+                              con.multiplicador = double.parse(
+                                  con.multiplicador.toStringAsFixed(2));
                               //con.total += CartEvents.bets[i]['ganancia'];
                             }
                             con.total = (double.parse(con.monto.text) *
@@ -132,7 +134,9 @@ class _ApuestaScreenState extends State<ApuestaScreen> {
                     borderRadius: BorderRadius.circular(10.0),
                     side: BorderSide(color: ColorsApp.black, width: 1.0)),
                 onPressed: () async {
-                  if (con.total > 30000000) {
+                  print(con.total);
+                  print(con.total <= 30000000);
+                  if (con.total <= 30000000) {
                     await con.saveBet();
                   } else {
                     con.modalMensaje(

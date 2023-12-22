@@ -16,7 +16,7 @@ class LoginController {
   TextEditingController password = TextEditingController();
 
   //textos
-  String copyRight = 'Create by Cadmustech';
+  String copyRight = 'Created by Cadmustech';
   String titulo = 'APUESTAS TURF';
 
   Map<String, String> body = {};
