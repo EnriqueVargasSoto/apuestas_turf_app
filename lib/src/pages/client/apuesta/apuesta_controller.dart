@@ -63,11 +63,12 @@ class ApuestaController {
           'user_id': user['user']['id'].toString(),
           'result': 'pendiente',
           'amount_total_bet': monto.text,
-          'quota': multiplicador.toInt().toString(),
-          'amount_total_result': total.toInt().toString()
+          'quota': multiplicador.toString(),
+          'amount_total_result': total.toString()
         };
 
         await Service.consulta('bets', 'post', body).then((value) async {
+          print(value.body);
           dynamic bet = jsonDecode(value.body);
 
           for (var i = 0; i < CartEvents.bets.length; i++) {
@@ -84,24 +85,25 @@ class ApuestaController {
             };
 
             await Service.consulta('bet-event', 'post', detailBody)
-                .then((value) async {
-              Map<String, String> bodyApuesta = {
-                'user_id': user['user']['id'].toString(),
-                'type': 'Apuesta',
-                'amount': monto.text
-              };
-
-              await Service.consulta('transactions', 'post', bodyApuesta)
-                  .then((value) {
-                print(value.body);
-                CartEvents.bets = [];
-
-                cerrarModal();
-                Navigator.pushNamedAndRemoveUntil(
-                    context!, '/main', (route) => false);
-              });
-            });
+                .then((value) async {});
           }
+
+          Map<String, String> bodyApuesta = {
+            'user_id': user['user']['id'].toString(),
+            'type': 'Apuesta',
+            'amount': monto.text
+          };
+
+          await Service.consulta('transactions', 'post', bodyApuesta)
+              .then((value) {
+            print(value.body);
+            CartEvents.bets = [];
+
+            cerrarModal();
+            modalMensaje('Apuesta creada con éxito!', 200);
+            /*Navigator.pushNamedAndRemoveUntil(
+                context!, '/main', (route) => false);*/
+          });
         });
       } else {
         cerrarModal();
@@ -219,5 +221,53 @@ class ApuestaController {
 
   void cerrarModal() {
     Navigator.pop(context!);
+  }
+
+  void modalMensaje(String mensaje, int statusCode) {
+    showDialog(
+        barrierDismissible: false,
+        context: context!,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  Icons.warning_rounded,
+                  color: Colors.amber[100],
+                  size: 18,
+                ),
+                Text(
+                  mensaje,
+                  maxLines: 2,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      color: ColorsApp.black,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700),
+                )
+              ],
+            ),
+            actions: [
+              MaterialButton(
+                  onPressed: () {
+                    cerrarModal();
+                    if (statusCode == 200) {
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, '/main', (route) => false);
+                    }
+                  },
+                  color: ColorsApp.background,
+                  child: Text(
+                    'OK',
+                    style: TextStyle(
+                        color: ColorsApp.white,
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold),
+                  ))
+            ],
+            actionsAlignment: MainAxisAlignment.center,
+          );
+        });
   }
 }

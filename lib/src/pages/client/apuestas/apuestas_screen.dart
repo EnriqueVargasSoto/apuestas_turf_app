@@ -147,6 +147,17 @@ class _ApuestasScreenState extends State<ApuestasScreen> {
                   SizedBox(
                     height: 10.0,
                   ),
+                  Text(
+                    'Monto a Ganar: ${con.bets[i]['amount_total_result']}',
+                    maxLines: 2,
+                    style:
+                        TextStyle(fontSize: 18.0, fontWeight: FontWeight.w500),
+                  ),
+                  Text(
+                    'Estado: ${con.bets[i]['result']}',
+                    style:
+                        TextStyle(fontSize: 18.0, fontWeight: FontWeight.w500),
+                  ),
                 ],
               ),
             ),

@@ -158,7 +158,7 @@ class EditUserController {
           montoDouble -= double.parse(transferencias[i]['amount']);
         }
       }
-      monto.text = montoDouble.toStringAsFixed(3);
+      monto.text = montoDouble.toInt().toString();
       print(value.body);
     });
   }

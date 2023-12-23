@@ -78,13 +78,17 @@ class CreateEventController {
     if (response.statusCode == 200) {
       var responseString = await response.stream.bytesToString();
       print(responseString);
+      cerrarModal();
+      modalMensaje('Evento creado con éxito!', 200);
     } else {
+      cerrarModal();
       var responseString = await response.stream.bytesToString();
       print(responseString);
+      Navigator.pushNamedAndRemoveUntil(context!, '/main', (route) => false);
     }
 
-    cerrarModal();
-    Navigator.pushNamedAndRemoveUntil(context!, '/main', (route) => false);
+    //cerrarModal();
+    //Navigator.pushNamedAndRemoveUntil(context!, '/main', (route) => false);
   }
 
   void loading() {
@@ -120,5 +124,42 @@ class CreateEventController {
 
   void cerrarModal() {
     Navigator.pop(context!);
+  }
+
+  void modalMensaje(String mensaje, int statusCode) {
+    showDialog(
+        barrierDismissible: false,
+        context: context!,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Text(
+              mensaje,
+              maxLines: 2,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  color: ColorsApp.black,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700),
+            ),
+            actions: [
+              MaterialButton(
+                  onPressed: () {
+                    cerrarModal();
+                    if (statusCode == 200) {
+                      Navigator.pushReplacementNamed(context, '/main');
+                    }
+                  },
+                  color: ColorsApp.background,
+                  child: Text(
+                    'OK',
+                    style: TextStyle(
+                        color: ColorsApp.white,
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold),
+                  ))
+            ],
+            actionsAlignment: MainAxisAlignment.center,
+          );
+        });
   }
 }

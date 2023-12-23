@@ -169,71 +169,73 @@ class _DetailEventScreenState extends State<DetailEventScreen> {
     List<Widget> opt = [];
 
     for (var i = 0; i < con.event['probabilities'].length; i++) {
-      final temp = GestureDetector(
-        onTap: () {
-          //agregarEvento(con.event['probabilities'][i]);
-          //selectProbability(i);
-        },
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
-          margin: EdgeInsets.symmetric(vertical: 5.0),
-          decoration: BoxDecoration(
-              border: Border.all(width: 1.0, color: ColorsApp.background),
-              borderRadius: BorderRadius.circular(8.0),
-              color: selectedProbability == i
-                  ? ColorsApp.background
-                  : ColorsApp.white),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '${con.event['probabilities'][i]['name']} ${con.event['probabilities'][i]['description'] != null ? '- ${con.event['probabilities'][i]['description']}' : ''}',
-                      maxLines: 2,
-                    ),
-                    Text('Cuota: ${con.event['probabilities'][i]['value']}'),
-                    //Text('Msx. apuesta: ${con.event['probabilities'][i]['max']}'),
-                  ],
+      if (con.event['probabilities'][i]['status'] == 'active') {
+        final temp = GestureDetector(
+          onTap: () {
+            //agregarEvento(con.event['probabilities'][i]);
+            //selectProbability(i);
+          },
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+            margin: EdgeInsets.symmetric(vertical: 5.0),
+            decoration: BoxDecoration(
+                border: Border.all(width: 1.0, color: ColorsApp.background),
+                borderRadius: BorderRadius.circular(8.0),
+                color: selectedProbability == i
+                    ? ColorsApp.background
+                    : ColorsApp.white),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '${con.event['probabilities'][i]['name']} ${con.event['probabilities'][i]['description'] != null ? '- ${con.event['probabilities'][i]['description']}' : ''}',
+                        maxLines: 2,
+                      ),
+                      Text('Cuota: ${con.event['probabilities'][i]['value']}'),
+                      //Text('Msx. apuesta: ${con.event['probabilities'][i]['max']}'),
+                    ],
+                  ),
                 ),
-              ),
-              SizedBox(
-                child: Row(
-                  children: [
-                    IconButton(
-                        onPressed: () {
-                          con.showEstadisticas(
-                              con.event['probabilities'][i]['records']);
-                        },
-                        icon: Icon(
-                          Icons.remove_red_eye,
-                          color: Colors.grey,
-                        )),
-                    IconButton(
-                        onPressed: () async {
-                          con.addBet(con.event['probabilities'][i]);
-                          setState(() {});
-                        },
-                        icon: con.eventSelect['probability'] ==
-                                con.event['probabilities'][i]
-                            ? Icon(
-                                Icons.check,
-                                color: Colors.green,
-                              )
-                            : Icon(
-                                Icons.add,
-                                color: Colors.blue,
-                              ))
-                  ],
-                ),
-              )
-            ],
+                SizedBox(
+                  child: Row(
+                    children: [
+                      IconButton(
+                          onPressed: () {
+                            con.showEstadisticas(
+                                con.event['probabilities'][i]['records']);
+                          },
+                          icon: Icon(
+                            Icons.remove_red_eye,
+                            color: Colors.grey,
+                          )),
+                      IconButton(
+                          onPressed: () async {
+                            con.addBet(con.event['probabilities'][i]);
+                            setState(() {});
+                          },
+                          icon: con.eventSelect['probability'] ==
+                                  con.event['probabilities'][i]
+                              ? Icon(
+                                  Icons.check,
+                                  color: Colors.green,
+                                )
+                              : Icon(
+                                  Icons.add,
+                                  color: Colors.blue,
+                                ))
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
-        ),
-      );
-      opt.add(temp);
+        );
+        opt.add(temp);
+      }
     }
 
     return opt;

@@ -164,7 +164,7 @@ class _ProbabilitiesScreenState extends State<ProbabilitiesScreen> {
     con.nameProbabilidad.text = probabilidad['name'];
     con.descripcion.text = probabilidad['description'];
     con.valor.text = probabilidad['value'];
-    con.apuestaMaxima.text = probabilidad['max'];
+    con.apuestaMaxima.text = probabilidad['max'] == null ? '' : '';
     showDialog(
         context: context,
         builder: (BuildContext context) {
