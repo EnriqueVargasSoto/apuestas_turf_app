@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:tafur/src/pages/client/apuestas/apuestas_controller.dart';
 import 'package:tafur/src/utils/colors.dart';
+import 'package:tafur/src/utils/service.dart';
 
 class ApuestasScreen extends StatefulWidget {
   const ApuestasScreen({super.key});
@@ -20,6 +23,7 @@ class _ApuestasScreenState extends State<ApuestasScreen> {
     super.initState();
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) async {
       await con.init(context);
+
       setState(() {});
     });
   }
@@ -56,6 +60,8 @@ class _ApuestasScreenState extends State<ApuestasScreen> {
     List<Widget> opt = [];
 
     for (var i = 0; i < con.bets.length; i++) {
+      final num_bets = con.bets[i]['bet_events'].length;
+      DateTime createdAt = DateTime.parse(con.bets[i]['created_at']);
       final widgetTemp = Container(
         padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
         margin: EdgeInsets.symmetric(vertical: 5.0),
@@ -70,41 +76,76 @@ class _ApuestasScreenState extends State<ApuestasScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Row(
+                    children: [
+                      CardInfo(
+                          estado: 'personalizado',
+                          mensaje: (num_bets.toString() == '1')
+                              ? "SIMPLE"
+                              : "COMBO x$num_bets"),
+                      SizedBox(
+                        width: 3.0,
+                      ),
+                      CardInfo(estado: con.bets[i]['result']),
+                      Spacer(),
+                      Text(
+                        "${createdAt.day}/${createdAt.month}/${createdAt.year}, ${createdAt.hour}:${createdAt.minute}",
+                        style: TextStyle(
+                            fontSize: 12.0, fontWeight: FontWeight.w500),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10.0,
+                  ),
                   Text(
                     '${con.bets[i]['code']} ',
                     style:
-                        TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                        TextStyle(fontSize: 18.0, fontWeight: FontWeight.w600),
                   ),
                   SizedBox(
                     height: 10.0,
                   ),
-                  Text(
-                    'Monto Apostado: ${con.bets[i]['amount_total_bet']}',
-                    maxLines: 2,
-                    style:
-                        TextStyle(fontSize: 18.0, fontWeight: FontWeight.w500),
+                  Column(
+                    children: listEvents(num_bets, i),
+                  ),
+                  SizedBox(
+                    height: 18.0,
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          'Apuesta \n₲${con.bets[i]['amount_total_bet']}',
+                          style: TextStyle(
+                              fontSize: 18.0, fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                      SizedBox(width: size!.width * 0.06),
+                      Expanded(
+                        child: Text(
+                          (num_bets > 1)
+                              ? 'Cuotas Totales ${con.bets[i]['quota']}'
+                              : 'Cuota \n${con.bets[i]['quota']}',
+                          style: TextStyle(
+                              fontSize: 18.0, fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                      Spacer(),
+                      Expanded(
+                          child: (con.bets[i]['result'] == 'ganada')
+                              ? Text(
+                                  '₲${con.bets[i]['amount_total_result']}',
+                                  style: TextStyle(
+                                      fontSize: 18.0,
+                                      color: Colors.green,
+                                      fontWeight: FontWeight.w600),
+                                )
+                              : SizedBox())
+                    ],
                   ),
                   SizedBox(
                     height: 10.0,
-                  ),
-                  Text(
-                    'Cuota: ${con.bets[i]['quota']}',
-                    style:
-                        TextStyle(fontSize: 18.0, fontWeight: FontWeight.w500),
-                  ),
-                  SizedBox(
-                    height: 10.0,
-                  ),
-                  Text(
-                    'Monto a Ganar: ${con.bets[i]['amount_total_result']}',
-                    maxLines: 2,
-                    style:
-                        TextStyle(fontSize: 18.0, fontWeight: FontWeight.w500),
-                  ),
-                  Text(
-                    'Estado: ${con.bets[i]['result']}',
-                    style:
-                        TextStyle(fontSize: 18.0, fontWeight: FontWeight.w500),
                   ),
                 ],
               ),
@@ -199,6 +240,48 @@ class _ApuestasScreenState extends State<ApuestasScreen> {
       );
 
       opt.add(widgetTemp);
+    }
+
+    return opt;
+  }
+
+  Future getEvent(id) async {
+    var value = await Service.consulta('events/$id', 'get', null);
+    print("skdfskgfdkg");
+    if (value.body.startsWith('<!DOCTYPE')) {
+      throw FormatException('The response is not a valid JSON.');
+    }
+    dynamic resp = jsonDecode(value.body);
+    return resp;
+  }
+
+  Future<void> loadEvents() async {
+    await getEvent(48);
+  }
+
+  List<Widget> listEvents(numbets, idBet) {
+    List<Widget> opt = [];
+    for (var i = 0; i < numbets; i++) {
+      final eventTiles = FutureBuilder(
+          future: getEvent(con.bets[idBet]['bet_events'][i]['event_id']),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return CircularProgressIndicator();
+            } else if (snapshot.hasError) {
+              return Text('Error: ${snapshot.error}');
+            } else {
+              print(snapshot.hasData);
+              return Column(children: [
+                Text("Paraguay vs Peru"),
+                Text("Gana Peru - Local"),
+                SizedBox(
+                  height: 10.0,
+                )
+              ]);
+            }
+          });
+
+      opt.add(eventTiles);
     }
 
     return opt;
